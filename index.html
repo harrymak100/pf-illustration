@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Premium Financing Illustration · Private Wealth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter+Tight:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --bg:#faf6ef;
+  --bg-2:#f3ece0;
+  --paper:#ffffff;
+  --ink:#1a1f1a;
+  --ink-2:#3d4540;
+  --ink-soft:#6b7570;
+  --line:#d9cfbe;
+  --line-soft:#e8ddc8;
+  --line-strong:#b8a585;
+  --forest:#1a3a2e;
+  --forest-deep:#0d2920;
+  --forest-soft:#2d5043;
+  --gold:#8b6f47;
+  --gold-bright:#a88858;
+  --gold-deep:#6b5535;
+  --accent-pos:#3d6a4f;
+  --accent-neg:#a14b3a;
+  --warn:#b8893a;
+  --serif:'Fraunces','Noto Serif TC',Georgia,serif;
+  --sans:'Inter Tight',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:14px;
+  line-height:1.55;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+body{
+  background:
+    radial-gradient(ellipse 800px 600px at top right, rgba(26,58,46,0.025) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 400px at bottom left, rgba(139,111,71,0.03) 0%, transparent 60%),
+    var(--bg);
+  min-height:100vh;
+}
+
+/* HEADER */
+.header{
+  border-bottom:1px solid var(--line);
+  padding:18px 36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(250,246,239,0.85);
+  backdrop-filter:blur(20px);
+  position:sticky;top:0;z-index:100;
+}
+.brand{display:flex;align-items:center;gap:18px}
+.brand-mark{
+  width:46px;height:46px;
+  background:var(--forest);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);
+  color:var(--bg);font-size:20px;
+  font-style:italic;font-weight:500;
+  letter-spacing:-0.02em;position:relative;
+}
+.brand-mark::after{content:"";position:absolute;inset:3px;border:1px solid rgba(255,255,255,0.15)}
+.brand-text{display:flex;flex-direction:column;gap:3px}
+.brand-name{font-family:var(--serif);font-size:20px;letter-spacing:-0.005em;color:var(--ink);font-weight:500;font-variation-settings:"opsz" 144}
+.brand-sub{font-size:9.5px;letter-spacing:0.36em;color:var(--gold);text-transform:uppercase;font-weight:600}
+
+.header-controls{display:flex;align-items:center;gap:14px}
+.toggle-group{display:flex;border:1px solid var(--line-strong);background:var(--paper)}
+.toggle-btn{
+  padding:8px 16px;font-size:11px;letter-spacing:0.18em;font-weight:600;
+  color:var(--ink-soft);background:transparent;border:none;cursor:pointer;
+  transition:all .2s ease;text-transform:uppercase;font-family:var(--sans);
+}
+.toggle-btn.active{background:var(--forest);color:var(--bg)}
+.toggle-btn:hover:not(.active){color:var(--ink);background:var(--bg-2)}
+
+.mode-pill{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border:1px solid var(--line-strong);background:var(--paper);
+  font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;color:var(--ink-2);font-weight:600;font-family:var(--sans);
+}
+.mode-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.mode-pill.client-mode{border-color:var(--accent-pos);color:var(--accent-pos)}
+.mode-pill.client-mode .dot{background:var(--accent-pos)}
+
+.btn-export{
+  padding:10px 20px;background:var(--forest);color:var(--bg);border:none;
+  font-size:10.5px;letter-spacing:0.18em;font-weight:600;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+}
+.btn-export:hover:not(:disabled){background:var(--forest-deep)}
+.btn-export:disabled{opacity:0.6;cursor:wait}
+
+.main{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 81px)}
+
+/* SIDEBAR */
+.sidebar{
+  border-right:1px solid var(--line);
+  padding:32px 26px;
+  background:var(--bg-2);
+  overflow-y:auto;
+  max-height:calc(100vh - 81px);
+}
+.sb-section{margin-bottom:34px}
+.sb-section:last-child{margin-bottom:0}
+.sb-title{
+  font-size:9.5px;letter-spacing:0.34em;color:var(--gold-deep);
+  text-transform:uppercase;margin-bottom:18px;font-weight:700;
+  display:flex;align-items:center;gap:10px;
+}
+.sb-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line-strong) 0%,transparent 100%)}
+
+.input-row{margin-bottom:14px}
+.input-label{
+  font-size:11.5px;color:var(--ink-2);margin-bottom:6px;
+  display:flex;justify-content:space-between;font-weight:500;letter-spacing:0.01em;
+}
+.input-label .unit{color:var(--ink-soft);font-size:10px;font-weight:400}
+.input-field{
+  width:100%;padding:10px 12px;background:var(--paper);
+  border:1px solid var(--line-strong);color:var(--ink);
+  font-family:var(--mono);font-size:13px;font-weight:500;transition:border-color .2s;
+}
+.input-field:focus{outline:none;border-color:var(--forest);box-shadow:0 0 0 3px rgba(26,58,46,0.08)}
+.input-field.invalid{border-color:var(--accent-neg);background:rgba(161,75,58,0.04)}
+.input-error{font-size:10px;color:var(--accent-neg);margin-top:4px;font-weight:500;display:none}
+.input-error.show{display:block}
+
+.slider-row{margin-bottom:20px}
+.slider-head{display:flex;justify-content:space-between;margin-bottom:10px;font-size:11.5px}
+.slider-head .label{color:var(--ink-2);letter-spacing:0.01em;font-weight:500}
+.slider-head .value{color:var(--forest);font-family:var(--mono);font-weight:700;font-size:13px}
+.slider-head .value.warn{color:var(--warn)}
+.slider-head .value.danger{color:var(--accent-neg)}
+.slider{width:100%;-webkit-appearance:none;appearance:none;height:3px;background:var(--line-strong);outline:none;cursor:pointer}
+.slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;
+  background:var(--forest);border-radius:50%;cursor:pointer;
+  border:3px solid var(--bg-2);box-shadow:0 0 0 1px var(--forest);transition:transform .15s;
+}
+.slider::-webkit-slider-thumb:hover{transform:scale(1.15);background:var(--gold)}
+.slider::-moz-range-thumb{width:20px;height:20px;background:var(--forest);border-radius:50%;cursor:pointer;border:3px solid var(--bg-2);box-shadow:0 0 0 1px var(--forest)}
+
+/* Reset button */
+.btn-reset{
+  width:100%;margin-top:8px;padding:8px;
+  background:transparent;border:1px solid var(--line-strong);
+  color:var(--ink-soft);font-size:10px;letter-spacing:0.18em;
+  text-transform:uppercase;font-weight:600;cursor:pointer;
+  font-family:var(--sans);transition:all .2s;
+}
+.btn-reset:hover{background:var(--paper);color:var(--ink);border-color:var(--gold)}
+
+/* Bank selector */
+.bank-grid{display:grid;grid-template-columns:1fr;gap:6px;max-height:480px;overflow-y:auto;padding-right:4px}
+.bank-card{
+  padding:13px 14px;border:1px solid var(--line-strong);background:var(--paper);
+  cursor:pointer;transition:all .2s;position:relative;
+}
+.bank-card:hover:not(.disabled){border-color:var(--gold)}
+.bank-card.active{border-color:var(--forest);background:linear-gradient(135deg,rgba(26,58,46,0.06) 0%,var(--paper) 100%)}
+.bank-card.active::before{content:"";position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--forest)}
+.bank-card.disabled{opacity:0.45;cursor:not-allowed;background:var(--bg-2)}
+.bank-name{
+  font-size:12px;font-weight:700;color:var(--ink);
+  letter-spacing:0.01em;line-height:1.3;
+}
+.bank-account-name{
+  font-size:10.5px;color:var(--gold-deep);font-weight:600;
+  margin-top:2px;letter-spacing:0.02em;line-height:1.35;
+}
+.bank-rate-line{
+  display:flex;align-items:baseline;gap:8px;
+  margin-top:7px;padding-top:7px;border-top:1px dashed var(--line);
+}
+.bank-rate-val{
+  font-family:var(--mono);font-size:13px;font-weight:700;
+  color:var(--forest);
+}
+.bank-card.disabled .bank-rate-val{color:var(--ink-soft)}
+.bank-rate-spread{
+  font-family:var(--mono);font-size:9.5px;color:var(--ink-soft);
+  font-weight:500;line-height:1.3;
+}
+.bank-opening{
+  font-size:10px;color:var(--ink-2);margin-top:6px;
+  line-height:1.45;letter-spacing:0.01em;
+}
+.bank-card.active .bank-opening{color:var(--ink-2)}
+.wih-flag{
+  position:absolute;top:6px;right:8px;font-size:8px;font-weight:700;
+  letter-spacing:0.1em;color:var(--accent-pos);background:rgba(61,106,79,0.12);padding:2px 5px;
+}
+
+.advisor-only{display:block}
+body.client-mode .advisor-only{display:none}
+
+/* CONTENT */
+.content{padding:36px 44px;overflow-y:auto;max-height:calc(100vh - 81px);background:var(--bg)}
+
+.page-title-block{margin-bottom:32px}
+.page-eyebrow{font-size:10.5px;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.page-title{
+  font-family:var(--serif);font-size:42px;font-weight:400;
+  letter-spacing:-0.015em;color:var(--ink);line-height:1.08;
+  margin-bottom:14px;font-variation-settings:"opsz" 144;
+}
+.page-title .em{font-style:italic;color:var(--forest);font-weight:500}
+.page-meta{font-size:11.5px;color:var(--ink-soft);display:flex;gap:24px;letter-spacing:0.02em;font-weight:500;flex-wrap:wrap}
+.page-meta .meta-item{display:flex;align-items:center;gap:6px}
+.page-meta .meta-item::before{content:"";display:inline-block;width:14px;height:1px;background:var(--gold)}
+.page-meta .meta-item .label{color:var(--ink-soft)}
+.page-meta .meta-item .value{color:var(--ink-2);font-weight:600}
+
+/* KPI */
+.kpi-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);margin-bottom:36px;
+}
+.kpi{background:var(--paper);padding:24px 22px;position:relative}
+.kpi-label{font-size:10px;letter-spacing:0.26em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:16px;font-weight:700}
+.kpi-value{
+  font-family:var(--serif);font-size:38px;font-weight:500;color:var(--ink);
+  line-height:1;letter-spacing:-0.018em;font-variant-numeric:tabular-nums;
+  font-variation-settings:"opsz" 144;
+}
+.kpi-value.gold{color:var(--gold)}
+.kpi-value.forest{color:var(--forest)}
+.kpi-value.pos{color:var(--accent-pos)}
+.kpi-value.neg{color:var(--accent-neg)}
+.kpi-value .small{font-size:20px;color:var(--ink-soft);margin-left:3px;font-weight:400}
+.kpi-sub{margin-top:10px;font-size:10.5px;color:var(--ink-soft);letter-spacing:0.04em;font-family:var(--mono);font-weight:500}
+
+/* Section */
+.section{margin-bottom:40px}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.section-title{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--ink);letter-spacing:-0.01em;font-variation-settings:"opsz" 144}
+.section-title .em{font-style:italic;color:var(--forest);font-weight:400}
+.section-meta{font-size:10.5px;color:var(--ink-soft);letter-spacing:0.18em;text-transform:uppercase;font-weight:600}
+
+.chart-card{background:var(--paper);border:1px solid var(--line);padding:26px 28px 22px;margin-bottom:24px}
+.chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.chart-title{font-family:var(--serif);font-size:19px;color:var(--ink);font-weight:500;font-variation-settings:"opsz" 144}
+.chart-legend{display:flex;gap:18px;font-size:11.5px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:7px;color:var(--ink-2);font-weight:500}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+.legend-dot.with-pf{background:var(--forest)}
+.legend-dot.no-pf{background:var(--gold)}
+.legend-dot.loan{background:var(--ink-soft)}
+.chart-wrap{position:relative;height:340px}
+.chart-wrap.short{height:280px}
+
+/* Compare cards */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:26px}
+.compare-card{padding:26px;border:1px solid var(--line);position:relative;background:var(--paper)}
+.compare-card.no-pf{background:var(--bg-2)}
+.compare-card.with-pf{background:linear-gradient(180deg,var(--paper) 0%,rgba(26,58,46,0.02) 100%);border-color:var(--forest);box-shadow:0 1px 0 rgba(26,58,46,0.08)}
+.compare-card.with-pf::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--forest)}
+.compare-tag{font-size:10.5px;letter-spacing:0.3em;color:var(--forest);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.compare-card.no-pf .compare-tag{color:var(--ink-soft)}
+.compare-name{font-family:var(--serif);font-size:24px;color:var(--ink);margin-bottom:20px;font-style:italic;font-weight:400;font-variation-settings:"opsz" 144}
+.compare-row{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.compare-row:last-child{border:none;padding-bottom:0}
+.compare-row .lbl{color:var(--ink-2);letter-spacing:0.01em;font-weight:500}
+.compare-row .val{color:var(--ink);font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums;font-size:13.5px}
+.compare-row .val.hl{color:var(--forest);font-size:17px;font-weight:700;font-family:var(--serif);font-variation-settings:"opsz" 144}
+.compare-row .val.pos{color:var(--accent-pos)}
+.compare-row .val.neg{color:var(--accent-neg)}
+
+/* Surrender year selector */
+.year-selector{
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;color:var(--ink-2);font-weight:500;
+}
+.year-selector select{
+  padding:5px 8px;border:1px solid var(--line-strong);background:var(--paper);
+  font-family:var(--mono);font-size:12px;font-weight:600;color:var(--forest);cursor:pointer;
+}
+
+/* Table */
+.cashflow-table-wrap{background:var(--paper);border:1px solid var(--line);overflow-x:auto;max-height:600px;overflow-y:auto}
+.cashflow-table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+.cashflow-table th{
+  background:var(--bg-2);color:var(--gold-deep);font-size:10px;
+  letter-spacing:0.2em;text-transform:uppercase;font-weight:700;
+  padding:15px 12px;text-align:right;border-bottom:1px solid var(--line-strong);
+  white-space:nowrap;position:sticky;top:0;z-index:5;
+}
+.cashflow-table th:first-child{text-align:center;width:60px}
+.cashflow-table td{padding:11px 12px;text-align:right;font-family:var(--mono);border-bottom:1px solid var(--line-soft);color:var(--ink);font-weight:500}
+.cashflow-table td:first-child{text-align:center;color:var(--forest);font-weight:600;font-family:var(--serif);font-size:15px;font-variation-settings:"opsz" 144}
+.cashflow-table tr:hover td{background:rgba(139,111,71,0.04)}
+.cashflow-table tr.milestone td{background:rgba(61,106,79,0.06)}
+.cashflow-table tr.milestone td:first-child{color:var(--accent-pos)}
+.cashflow-table .pos{color:var(--accent-pos)}
+.cashflow-table .neg{color:var(--accent-neg)}
+.cashflow-table .hl{color:var(--forest);font-weight:700}
+
+/* Bank compare grid */
+.bank-compare-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));gap:14px}
+.bank-stat-card{padding:18px 16px;background:var(--paper);border:1px solid var(--line);position:relative;display:flex;flex-direction:column}
+.bank-stat-card.best{border-color:var(--forest);background:linear-gradient(180deg,rgba(26,58,46,0.04) 0%,var(--paper) 100%)}
+.bank-stat-card.best::after{
+  content:"OPTIMAL";position:absolute;top:-9px;left:14px;
+  font-size:9px;letter-spacing:0.22em;color:var(--bg);background:var(--forest);
+  font-weight:700;padding:2px 8px;
+}
+.bank-stat-name{font-family:var(--serif);font-size:16px;color:var(--ink);margin-bottom:2px;font-weight:600;font-variation-settings:"opsz" 144;line-height:1.2}
+.bank-stat-account{font-size:10.5px;color:var(--gold-deep);font-weight:600;margin-bottom:8px;letter-spacing:0.02em;line-height:1.35}
+.bank-stat-tag{font-size:9px;color:var(--ink-soft);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;font-weight:600;line-height:1.4}
+.bank-stat-row{display:flex;justify-content:space-between;padding:5px 0;font-size:11.5px}
+.bank-stat-row .lbl{color:var(--ink-soft);font-weight:500}
+.bank-stat-row .val{color:var(--ink);font-family:var(--mono);font-weight:600}
+.bank-stat-row.headline{border-top:1px solid var(--line);margin-top:8px;padding-top:10px}
+.bank-stat-row.headline .val{font-size:15px;color:var(--forest);font-family:var(--serif);font-weight:600;font-variation-settings:"opsz" 144}
+.bank-stat-opening{
+  margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);
+  font-size:10px;color:var(--ink-2);line-height:1.55;letter-spacing:0.01em;
+}
+
+/* Risk warning banner */
+.risk-banner{
+  margin:0 0 24px;padding:14px 18px;
+  background:rgba(184,137,58,0.08);border-left:3px solid var(--warn);
+  font-size:12px;color:var(--ink-2);display:none;
+  letter-spacing:0.01em;line-height:1.6;
+}
+.risk-banner.show{display:block}
+.risk-banner strong{color:var(--warn);font-weight:700}
+
+/* Disclaimer */
+.disclaimer{margin-top:48px;padding:28px 0 0;border-top:1px solid var(--line);font-size:10.5px;color:var(--ink-soft);line-height:1.75;letter-spacing:0.01em}
+.disclaimer .head{font-size:10.5px;letter-spacing:0.3em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:12px;font-weight:700}
+.disclaimer-grid{display:grid;grid-template-columns:1fr 200px;gap:32px;align-items:end}
+.signature-block{text-align:right;padding-top:20px;border-top:1px solid var(--line-strong)}
+.signature-block .role{font-size:9.5px;letter-spacing:0.24em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;font-weight:700}
+.signature-block .name{font-family:var(--serif);font-size:16px;color:var(--ink);font-style:italic;font-variation-settings:"opsz" 144}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--ink);color:var(--bg);padding:12px 20px;font-size:12px;
+  letter-spacing:0.04em;font-weight:500;border-left:3px solid var(--gold);
+  transition:transform .3s ease;z-index:1000;max-width:90vw;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media (max-width:1240px){
+  .main{grid-template-columns:300px 1fr}
+  .content{padding:30px 32px}
+  .bank-compare-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:1024px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .page-title{font-size:34px}
+  .disclaimer-grid{grid-template-columns:1fr}
+  .signature-block{text-align:left}
+}
+@media (max-width:760px){
+  .main{grid-template-columns:1fr}
+  .sidebar{border-right:none;border-bottom:1px solid var(--line);max-height:none}
+  .compare-grid{grid-template-columns:1fr}
+  .bank-compare-grid{grid-template-columns:1fr 1fr}
+}
+
+::-webkit-scrollbar{width:7px;height:7px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+@media print{body{background:white}.header,.sidebar{display:none}.main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-mark">P·F</div>
+    <div class="brand-text">
+      <div class="brand-name" id="t-brand">Premium Financing Illustration</div>
+      <div class="brand-sub" id="t-brandSub">PRIVATE WEALTH ADVISORY · 2026</div>
+    </div>
+  </div>
+  <div class="header-controls">
+    <div class="toggle-group">
+      <button class="toggle-btn active" data-lang-btn="zh">繁中</button>
+      <button class="toggle-btn" data-lang-btn="en">EN</button>
+    </div>
+    <button class="mode-pill" id="modeToggle">
+      <span class="dot"></span>
+      <span id="modeLabel">顧問模式</span>
+    </button>
+    <button class="btn-export" id="exportBtn">匯出 PDF</button>
+  </div>
+</div>
+
+<div class="main">
+  <aside class="sidebar">
+
+    <div class="sb-section">
+      <div class="sb-title" id="t-sec-client">客戶資料</div>
+      <div class="input-row">
+        <div class="input-label"><span id="t-inp-name">客戶姓名</span></div>
+        <input class="input-field" id="clientName" value="Mr. Client" type="text" maxlength="50">
+      </div>
+      <div class="input-row">
+        <div class="input-label"><span id="t-inp-premium">基本保費</span><span class="unit">USD</span></div>
+        <input class="input-field" id="premiumUSD" value="200000" type="number" min="10000" max="10000000" step="100">
+        <div class="input-error" id="err-premium">USD 10,000 – 10,000,000</div>
+      </div>
+      <div class="input-row">
+        <div class="input-label"><span id="t-inp-fx">兌換匯率</span><span class="unit">HKD/USD</span></div>
+        <input class="input-field" id="fxRate" value="7.85" type="number" min="6" max="10" step="0.001">
+        <div class="input-error" id="err-fx">6.000 – 10.000</div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title" id="t-sec-product">投保產品</div>
+      <select class="input-field" id="productSelect">
+        <option value="WIH">智盈．超凡 (WIH)</option>
+        <option value="WIS3">智盈匯聚 III (Supreme III)</option>
+        <option value="GF_L">創逸致富 豐裕版 (GF Longevity)</option>
+        <option value="GF_W">創逸致富 豐盛版 (GF Wealth)</option>
+        <option value="NF_S">寰薈致富 卓越版 (Noble Fortune)</option>
+        <option value="RF_S">寰悅致富 卓越版 (Regal Fortune)</option>
+        <option value="IMP">非凡匯聚 (Imperial Wealth)</option>
+      </select>
+      <div id="dataQualityFlag" style="margin-top:8px;font-size:10px;color:var(--ink-soft);font-weight:500;letter-spacing:0.04em"></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title" id="t-sec-bank">融資銀行</div>
+      <div class="bank-grid" id="bankGrid"></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title" id="t-sec-financing">融資結構</div>
+      <div class="slider-row">
+        <div class="slider-head"><span class="label" id="t-inp-ltv">LTV 貸款比例</span><span class="value" id="ltvVal">90%</span></div>
+        <input type="range" class="slider" id="ltvSlider" min="70" max="95" step="1" value="90">
+      </div>
+      <div class="slider-row">
+        <div class="slider-head"><span class="label" id="t-inp-discount">保費折扣</span><span class="value" id="discountVal">5.0%</span></div>
+        <input type="range" class="slider" id="discountSlider" min="0" max="10" step="0.5" value="5">
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title" id="t-sec-stress">壓力測試</div>
+      <div class="slider-row">
+        <div class="slider-head"><span class="label" id="t-inp-rate">融資年利率</span><span class="value" id="rateVal">4.85%</span></div>
+        <input type="range" class="slider" id="rateSlider" min="2" max="8" step="0.05" value="4.85">
+      </div>
+      <div class="slider-row">
+        <div class="slider-head"><span class="label" id="t-inp-fulfillment">紅利實現率</span><span class="value" id="fulfillVal">100%</span></div>
+        <input type="range" class="slider" id="fulfillSlider" min="60" max="100" step="1" value="100">
+      </div>
+      <button class="btn-reset" id="resetStress">Reset</button>
+    </div>
+
+    <div class="sb-section advisor-only">
+      <div class="sb-title">Internal Reference</div>
+      <div style="font-size:10.5px;color:var(--ink-soft);line-height:1.85;font-family:var(--mono);font-weight:500">
+        Source: FWD HNW Banking<br>
+        Platform Brief, 2026/4/24<br>
+        — IRR cap 7.0% (HKIA)<br>
+        — 1m HIBOR ≈ 3.35%<br>
+        — 11 銀行分級已涵蓋
+      </div>
+    </div>
+
+  </aside>
+
+  <main class="content" id="contentArea">
+
+    <div class="page-title-block">
+      <div class="page-eyebrow" id="t-pg-eyebrow">PERSONALISED ILLUSTRATION</div>
+      <h1 class="page-title" id="pageTitle">
+        <!-- Built dynamically in render() -->
+      </h1>
+      <div class="page-meta">
+        <div class="meta-item"><span class="label" id="t-pg-product-lbl">產品</span><span class="value" id="ptProduct">智盈．超凡</span></div>
+        <div class="meta-item"><span class="label" id="t-pg-bank-lbl">融資夥伴</span><span class="value" id="ptBank">天星銀行</span></div>
+        <div class="meta-item"><span class="label" id="t-pg-date-lbl">報價日期</span><span class="value">2026/04/24</span></div>
+      </div>
+    </div>
+
+    <div class="risk-banner" id="riskBanner"></div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label" id="t-kpi-outlay">自付資本</div>
+        <div class="kpi-value" id="kpiOutlay">HK$115,736</div>
+        <div class="kpi-sub" id="t-kpi-outlay-sub">一筆過投入</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label" id="t-kpi-leverage">資本槓桿</div>
+        <div class="kpi-value gold" id="kpiLev">4.35×</div>
+        <div class="kpi-sub" id="kpiLevSub">HK$362,304 financing</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label" id="t-kpi-breakeven">回本年期</div>
+        <div class="kpi-value pos" id="kpiBreak">5 年</div>
+        <div class="kpi-sub" id="kpiBreakSub">TIRR turns positive</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label" id="t-kpi-irr20">20年期 IRR</div>
+        <div class="kpi-value forest" id="kpiIRR">7.15%</div>
+        <div class="kpi-sub" id="t-kpi-irr-sub">槓桿後內部回報率</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-title" id="t-chart-growth">退保價值增長軌跡</div>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-dot with-pf"></span><span id="t-leg-tsv">總退保價值</span></div>
+          <div class="legend-item"><span class="legend-dot loan"></span><span id="t-leg-loan">融資餘額</span></div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">
+          <span id="t-sec-compareA">純現金</span>
+          <span class="em">vs.</span>
+          <span id="t-sec-compareB">融資槓桿</span>
+        </div>
+        <div class="year-selector">
+          <span id="t-sec-yearLabel">退保年份</span>
+          <select id="surrenderYear"></select>
+        </div>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card no-pf">
+          <div class="compare-tag" id="t-cmp-noPf">純 現 金 策 略</div>
+          <div class="compare-name" id="t-cmp-fullCash">Full Cash Strategy</div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-outlay">資本投入</span><span class="val" id="np_outlay">HK$503,201</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-valueY">退保時價值</span><span class="val" id="np_value">HK$1,554,254</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-profit">淨利潤</span><span class="val pos" id="np_profit">HK$1,051,053</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-irr">內部回報率</span><span class="val hl" id="np_irr">5.79%</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-multiple">資本倍數</span><span class="val" id="np_mult">3.09×</span></div>
+        </div>
+
+        <div class="compare-card with-pf">
+          <div class="compare-tag" id="t-cmp-withPf">融 資 槓 桿 策 略</div>
+          <div class="compare-name" id="t-cmp-leveraged">Leveraged Strategy</div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-outlay2">資本投入</span><span class="val" id="pf_outlay">HK$115,736</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-valueY2">退保時淨值</span><span class="val" id="pf_value">HK$1,191,949</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-profit2">淨利潤</span><span class="val pos" id="pf_profit">HK$737,096</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-irr2">內部回報率</span><span class="val hl" id="pf_irr">7.15%</span></div>
+          <div class="compare-row"><span class="lbl" id="t-cmp-multiple2">資本倍數</span><span class="val hl" id="pf_mult">7.37×</span></div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div class="chart-title" id="t-chart-irr">不同退保年份之 IRR 對比</div>
+          <div class="chart-legend">
+            <div class="legend-item"><span class="legend-dot with-pf"></span><span id="t-leg-withPf">使用融資</span></div>
+            <div class="legend-item"><span class="legend-dot no-pf"></span><span id="t-leg-noPf">純現金</span></div>
+          </div>
+        </div>
+        <div class="chart-wrap short"><canvas id="irrChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">
+          <span id="t-sec-bankCompA">融資銀行</span>
+          <span class="em" id="t-sec-bankCompB">平台對比</span>
+        </div>
+        <div class="section-meta" id="t-sec-bankMeta">基於相同產品及客戶條件</div>
+      </div>
+      <div class="bank-compare-grid" id="bankCompareGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">
+          <span id="t-sec-cashA">20 年</span>
+          <span class="em" id="t-sec-cashB">完整現金流</span>
+        </div>
+        <div class="section-meta" id="t-sec-cashMeta">所有金額以港幣計算</div>
+      </div>
+      <div class="cashflow-table-wrap">
+        <table class="cashflow-table" id="cashflowTable">
+          <thead>
+            <tr>
+              <th id="t-th-year">年</th>
+              <th id="t-th-gv">保證價值</th>
+              <th id="t-th-ngv">非保證</th>
+              <th id="t-th-tsv">退保總值</th>
+              <th id="t-th-interest">當年利息</th>
+              <th id="t-th-netCash">淨現金</th>
+              <th id="t-th-netProfit">累計利潤</th>
+              <th id="t-th-irr">TIRR</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <div class="disclaimer-grid">
+        <div>
+          <div class="head" id="t-disc-head">重要事項及免責聲明</div>
+          <div id="discBody">本說明書僅供示意用途，所載數字基於指定假設（包括融資利率、紅利實現率、保險公司預期回報），實際結果或有差異。保費融資涉及槓桿風險，包括但不限於利率上升、銀行追加保證金 (margin call)、紅利實現率低於預期等。內部回報率 (IRR) 之展示受香港保險業監管局 7% 上限規限。本演示已假設 1m HIBOR ≈ 3.35% 為計算基準。客戶應就個人財務狀況及風險承受能力諮詢專業意見。本文件不構成投資建議或要約。</div>
+        </div>
+        <div class="signature-block">
+          <div class="role" id="t-sig-role">FWD 保險顧問</div>
+          <div class="name">Harry Mak</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ============ DATA ============
+const PRODUCTS = {
+  WIH: {
+    name: {zh:'智盈．超凡 (Wealth ICON Horizon)', en:'WealthIcon Horizon'},
+    short: {zh:'智盈．超凡', en:'WealthIcon Horizon'},
+    dataQuality: 'verified',  // verified = from actual illustration
+    premium: 200000,
+    yearly: [
+      [1,160000,0,0,160000],[2,162000,5600,0,167600],[3,162000,11244,18200,191444],
+      [4,162000,16934,28000,206934],[5,162000,22670,53200,237870],[6,162200,28451,59000,249651],
+      [7,162400,34279,65800,262479],[8,162600,40153,75600,278353],[9,163000,46074,95400,304474],
+      [10,163156,52043,115200,330399],[11,167256,58059,123200,348515],[12,172840,64124,131000,367964],
+      [13,180038,70237,138200,388475],[14,189026,76398,145000,410424],[15,200030,82610,151400,434040],
+      [16,200206,88871,174800,463877],[17,200404,95182,201400,496986],[18,200624,101543,231200,533367],
+      [19,200866,107955,264600,573421],[20,201128,114419,302200,617747]
+    ]
+  },
+  WIS3: {
+    name: {zh:'智盈匯聚 (優越版) III', en:'WealthIcon Supreme III'},
+    short: {zh:'智盈匯聚 III', en:'WealthIcon Supreme III'},
+    dataQuality: 'estimated',
+    premium: 200000,
+    yearly: [
+      [1,170000,0,0,170000],[2,172000,4800,0,176800],[3,172000,10500,15000,197500],
+      [4,172000,16200,24000,212200],[5,172000,21900,48000,241900],[6,172500,27800,54000,254300],
+      [7,173000,33700,60500,267200],[8,173500,39600,69500,282600],[9,174000,45500,87800,307300],
+      [10,174800,51400,105800,332000],[11,179000,57400,113500,349900],[12,185000,63300,121000,369300],
+      [13,193000,69200,128000,390200],[14,202500,75100,134500,412100],[15,213500,81000,141000,435500],
+      [16,213700,87100,162500,463300],[17,213900,93200,187200,494300],[18,214100,99300,214500,527900],
+      [19,214300,105400,245000,564700],[20,214500,111500,279500,605500]
+    ]
+  },
+  GF_L: {
+    name: {zh:'創逸致富 (豐裕版)', en:'Glorious Fortune Longevity'},
+    short: {zh:'創逸致富 豐裕', en:'GF Longevity'},
+    dataQuality: 'estimated',
+    premium: 200000,
+    yearly: [
+      [1,163200,0,0,163200],[2,165240,5320,0,170560],[3,165240,10682,17290,193212],
+      [4,165240,16087,26600,207927],[5,165240,21536,50540,237316],[6,165444,27028,56050,248522],
+      [7,165648,32565,62510,260723],[8,165852,38145,71820,275817],[9,166260,43770,90630,300660],
+      [10,166419,49441,109440,325300],[11,170601,55156,117040,342797],[12,176297,60918,124450,361665],
+      [13,183639,66725,131290,381654],[14,192807,72578,137750,403135],[15,204031,78480,143830,426341],
+      [16,204210,84427,166060,454697],[17,204412,90423,191330,486165],[18,204636,96466,219640,520742],
+      [19,204883,102557,251370,558810],[20,205151,108698,287090,600939]
+    ]
+  },
+  GF_W: {
+    name: {zh:'創逸致富 (豐盛版)', en:'Glorious Fortune Wealth'},
+    short: {zh:'創逸致富 豐盛', en:'GF Wealth'},
+    dataQuality: 'estimated',
+    premium: 200000,
+    yearly: [
+      [1,164000,0,0,164000],[2,166050,5152,0,171202],[3,166050,10344,16744,193138],
+      [4,166050,15579,25760,207389],[5,166050,20856,48944,235850],[6,166255,26175,54280,246710],
+      [7,166460,31537,60536,258533],[8,166665,36941,69552,273158],[9,167075,42388,87768,297231],
+      [10,167235,47880,105984,321099],[11,171437,53414,113344,338195],[12,177161,58994,120520,356675],
+      [13,184539,64618,127144,376301],[14,193752,70286,133400,397438],[15,205031,76001,139288,420320],
+      [16,205211,81761,160816,447788],[17,205414,87567,185288,478269],[18,205640,93420,212704,511764],
+      [19,205888,99319,243432,548639],[20,206156,105265,278024,589445]
+    ]
+  },
+  NF_S: {
+    name: {zh:'寰薈致富 (卓越版)', en:'Noble Fortune Signature'},
+    short: {zh:'寰薈致富 卓越', en:'Noble Fortune'},
+    dataQuality: 'estimated',
+    premium: 200000,
+    yearly: [
+      [1,163200,0,0,163200],[2,165240,5488,0,170728],[3,165240,11019,17836,194095],
+      [4,165240,16595,27440,209275],[5,165240,22217,52136,239593],[6,165444,27882,57820,251146],
+      [7,165648,33593,64484,263725],[8,165852,39350,74088,279290],[9,166260,45153,93492,304905],
+      [10,166419,51002,112896,330317],[11,170601,56898,120736,348235],[12,176297,62842,128380,367519],
+      [13,183639,68832,135436,387907],[14,192807,74870,142100,409777],[15,204031,80958,148372,433361],
+      [16,204210,87094,171304,462608],[17,204412,93278,197372,495062],[18,204636,99512,226576,530724],
+      [19,204883,105796,259308,569987],[20,205151,112131,296156,613438]
+    ]
+  },
+  RF_S: {
+    name: {zh:'寰悅致富 (卓越版)', en:'Regal Fortune Signature'},
+    short: {zh:'寰悅致富 卓越', en:'Regal Fortune'},
+    dataQuality: 'estimated',
+    premium: 200000,
+    yearly: [
+      [1,162880,0,0,162880],[2,164916,5432,0,170348],[3,164916,10907,17654,193477],
+      [4,164916,16426,27160,208502],[5,164916,21990,51604,238510],[6,165120,27597,57230,249947],
+      [7,165323,33251,63826,262400],[8,165527,38948,73332,277807],[9,165934,44692,92538,303164],
+      [10,166093,50482,111744,328319],[11,170267,56317,119504,346088],[12,175951,62200,127070,365221],
+      [13,183279,68130,134054,385463],[14,192428,74106,140650,407184],[15,203631,80132,146858,430621],
+      [16,203810,86205,169556,459571],[17,204011,92327,195358,491696],[18,204235,98497,224264,526996],
+      [19,204482,104716,256662,565860],[20,204748,110986,293134,608868]
+    ]
+  },
+  IMP: {
+    name: {zh:'非凡匯聚', en:'Imperial Wealth'},
+    short: {zh:'非凡匯聚', en:'Imperial Wealth'},
+    dataQuality: 'estimated',
+    premium: 200000,
+    yearly: [
+      [1,160000,0,0,160000],[2,162000,5600,0,167600],[3,162000,11244,18200,191444],
+      [4,162000,16934,28000,206934],[5,162000,22670,53200,237870],[6,162200,28451,59000,249651],
+      [7,162400,34279,65800,262479],[8,162600,40153,75600,278353],[9,163000,46074,95400,304474],
+      [10,163156,52043,115200,330399],[11,167256,58059,123200,348515],[12,172840,64124,131000,367964],
+      [13,180038,70237,138200,388475],[14,189026,76398,145000,410424],[15,200030,82610,151400,434040],
+      [16,200206,88871,174800,463877],[17,200404,95182,201400,496986],[18,200624,101543,231200,533367],
+      [19,200866,107955,264600,573421],[20,201128,114419,302200,617747]
+    ]
+  }
+};
+
+const HIBOR_1M = 0.0335;
+// Source: FWD HNW Banking Platform Brief, 2026/04/24
+// Bank tiers reflect different account classes within the same bank.
+// Product mapping strictly per PDF "適用產品" column.
+const BANKS = [
+  {
+    id:'airstar-large',
+    name:{zh:'天星銀行', en:'AirStar Bank'},
+    accountName:{zh:'一般戶口 (貸款≥$200萬)', en:'General Account (Loan ≥$2M)'},
+    short:{zh:'天星銀行 ≥$200萬', en:'AirStar ≥$2M'},
+    bankGroup:'AirStar',
+    rate: HIBOR_1M + 0.015, rateLabel:'H+1.5% / P-0.5%', ltv:0.90,
+    minAsset:{zh:'貸款 ≥ $200萬', en:'Loan ≥ HK$2M'},
+    openingReq:{zh:'無留存資產要求', en:'No min asset requirement'},
+    annualFee:0,
+    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    note:{zh:'貸款≥$200萬全期豁免 0.25% 年費', en:'Annual fee waived for loans ≥$2M'}
+  },
+  {
+    id:'airstar-small',
+    name:{zh:'天星銀行', en:'AirStar Bank'},
+    accountName:{zh:'一般戶口 (貸款<$200萬)', en:'General Account (Loan <$2M)'},
+    short:{zh:'天星銀行 <$200萬', en:'AirStar <$2M'},
+    bankGroup:'AirStar',
+    rate: HIBOR_1M + 0.015, rateLabel:'H+1.5% / P-0.65%', ltv:0.90,
+    minAsset:{zh:'$10萬港元或以上', en:'HK$100K or above'},
+    openingReq:{zh:'手機APP「保融易」申請; 貸款額 $10萬–$3000萬', en:'Apply via "保融易" mobile app; Loan $100K–$30M'},
+    annualFee:0.0025,
+    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    note:{zh:'每年 0.25% 年費', en:'0.25% annual fee'}
+  },
+  {
+    id:'shacom',
+    name:{zh:'上海商業銀行', en:'Shanghai Commercial Bank'},
+    accountName:{zh:'一般戶口', en:'General Account'},
+    short:{zh:'上海商業銀行', en:'Shanghai Commercial'},
+    bankGroup:'SHACOM',
+    rate: HIBOR_1M + 0.012, rateLabel:'(B) H+1.2% / P-1%', ltv:0.90,
+    minAsset:{zh:'$50萬港元', en:'HK$500K'},
+    openingReq:{zh:'$50萬現金或等值理財產品', en:'HK$500K cash or equivalent wealth products'},
+    annualFee:0.005,
+    products:['WIS3','GF_L','GF_W'],
+    note:{zh:'(A)H+1% 無 P-Cap; 或 (B)H+1.2%/P-1% 取較低 (收 0.5% 一次性手續費)', en:'(A) H+1% no P-Cap; or (B) H+1.2%/P-1% (with 0.5% one-off fee)'}
+  },
+  {
+    id:'ocbc-basic',
+    name:{zh:'華僑銀行', en:'OCBC Bank'},
+    accountName:{zh:'一般戶口', en:'General Account'},
+    short:{zh:'華僑 一般戶口', en:'OCBC General'},
+    bankGroup:'OCBC',
+    rate: HIBOR_1M + 0.014, rateLabel:'H+1.4% / no Cap', ltv:0.90,
+    minAsset:{zh:'無', en:'None'},
+    openingReq:{zh:'無留存資產要求', en:'No min asset requirement'},
+    annualFee:0,
+    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    note:{zh:'入門級戶口,無資產門檻', en:'Entry-level account, no asset threshold'}
+  },
+  {
+    id:'ocbc-premier',
+    name:{zh:'華僑銀行', en:'OCBC Bank'},
+    accountName:{zh:'宏富理財 (Premier Banking)', en:'Premier Banking'},
+    short:{zh:'華僑 宏富理財', en:'OCBC Premier'},
+    bankGroup:'OCBC',
+    rate: HIBOR_1M + 0.012, rateLabel:'H+1.2% / P-1.2%', ltv:0.90,
+    minAsset:{zh:'$100萬港元', en:'HK$1M'},
+    openingReq:{zh:'$100萬現金或等值理財產品', en:'HK$1M cash or equivalent wealth products'},
+    annualFee:0,
+    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    note:{zh:'宏富理財客戶專屬利率', en:'Premier banking exclusive rate'}
+  },
+  {
+    id:'ocbc-wealth',
+    name:{zh:'華僑銀行', en:'OCBC Bank'},
+    accountName:{zh:'豐盛理財 (Premier Private Client)', en:'Premier Private Client'},
+    short:{zh:'華僑 豐盛理財', en:'OCBC PPC'},
+    bankGroup:'OCBC',
+    rate: HIBOR_1M + 0.009, rateLabel:'H+0.9% / P-1.4%', ltv:0.90,
+    minAsset:{zh:'$400萬港元', en:'HK$4M'},
+    openingReq:{zh:'$400萬現金或等值理財產品', en:'HK$4M cash or equivalent wealth products'},
+    annualFee:0,
+    products:['WIS3','GF_W','RF_S','IMP'],
+    note:{zh:'豐盛理財 — 接受 Imperial / Regal Fortune 等高端產品', en:'PPC — accepts Imperial / Regal Fortune high-end products'}
+  },
+  {
+    id:'citic',
+    name:{zh:'中信銀行 (國際)', en:'CITIC Bank International'},
+    accountName:{zh:'CITICdiamond 鑽石客戶', en:'CITICdiamond'},
+    short:{zh:'中信 CITICdiamond', en:'CITICdiamond'},
+    bankGroup:'CITIC',
+    rate: HIBOR_1M + 0.014, rateLabel:'首2年 H+0.9%/Cap 3.8%, 後 H+0.9%', ltv:0.90,
+    minAsset:{zh:'$300萬港元', en:'HK$3M'},
+    openingReq:{zh:'$300萬港元 (不包括定期存款); 開戶日只需$50萬,5天內存入餘下$50萬*', en:'HK$3M (excluding time deposits); HK$500K on day 1, remaining HK$500K within 5 days*'},
+    annualFee:0,
+    products:['WIS3','GF_L','GF_W'],
+    note:{zh:'CITICdiamond 鑽石客戶專享; 只接受境內資產; 美金保單可借美金或港元', en:'CITICdiamond exclusive; HK assets only; USD/HKD loans for USD policies'}
+  },
+  {
+    id:'dbs-50to1000',
+    name:{zh:'星展銀行', en:'DBS Hong Kong'},
+    accountName:{zh:'VIP Banking ($50萬–$1000萬)', en:'VIP Banking ($500K–$10M)'},
+    short:{zh:'星展 VIP $50萬+', en:'DBS VIP $500K+'},
+    bankGroup:'DBS',
+    rate: HIBOR_1M + 0.014, rateLabel:'H+1.4% no Cap', ltv:0.90,
+    minAsset:{zh:'$50萬港元', en:'HK$500K'},
+    openingReq:{zh:'$50萬港元; 個人理財總值持續 < $50萬須付 $200/月服務費', en:'HK$500K; service fee HK$200/mo if asset < HK$500K'},
+    annualFee:0,
+    products:['WIH','WIS3','GF_L','GF_W'],
+    note:{zh:'入門 VIP Banking', en:'Entry VIP Banking tier'}
+  },
+  {
+    id:'dbs-1000to2000',
+    name:{zh:'星展銀行', en:'DBS Hong Kong'},
+    accountName:{zh:'VIP Banking ($1000萬–$2000萬)', en:'VIP Banking ($10M–$20M)'},
+    short:{zh:'星展 VIP $1000萬+', en:'DBS VIP $10M+'},
+    bankGroup:'DBS',
+    rate: HIBOR_1M + 0.012, rateLabel:'H+1.2% / P-2.1% 首5年', ltv:0.90,
+    minAsset:{zh:'$1000萬港元', en:'HK$10M'},
+    openingReq:{zh:'$1000萬港元; 連續3個月個人理財總值 < $100萬須付 $200/月 (新客首6個月豁免)', en:'HK$10M; HK$200/mo if 3-mo avg < HK$1M (waived first 6 months for new clients)'},
+    annualFee:0,
+    products:['WIH','WIS3','GF_L','GF_W'],
+    note:{zh:'首5年 H+1.2%/P-2.1%, 其後 H+1.2%; 只適用於 DBS 豐盛理財全新客戶', en:'First 5y H+1.2%/P-2.1%; then H+1.2%; New DBS Treasures clients only'}
+  },
+  {
+    id:'dbs-2000to3000',
+    name:{zh:'星展銀行', en:'DBS Hong Kong'},
+    accountName:{zh:'VIP Banking ($2000萬–$3000萬)', en:'VIP Banking ($20M–$30M)'},
+    short:{zh:'星展 VIP $2000萬+', en:'DBS VIP $20M+'},
+    bankGroup:'DBS',
+    rate: HIBOR_1M + 0.009, rateLabel:'首2年 H+0.6%/Cap 3.8%, 後 H+0.8%', ltv:0.90,
+    minAsset:{zh:'$2000萬港元', en:'HK$20M'},
+    openingReq:{zh:'$2000萬港元; 最高級 VIP Banking', en:'HK$20M; Top-tier VIP Banking'},
+    annualFee:0,
+    products:['WIH','WIS3','GF_L','GF_W'],
+    note:{zh:'最高級別 — 首2年享 Cap 3.8% 利率保護', en:'Top tier — first 2y rate cap at 3.8%'}
+  },
+  {
+    id:'dahsing',
+    name:{zh:'大新銀行', en:'Dah Sing Bank'},
+    accountName:{zh:'一般戶口', en:'General Account'},
+    short:{zh:'大新銀行', en:'Dah Sing'},
+    bankGroup:'Dah Sing',
+    rate: HIBOR_1M + 0.0125, rateLabel:'貸款年期 6-10年, H+1.25%~1.4%', ltv:0.90,
+    minAsset:{zh:'$100萬港元', en:'HK$1M'},
+    openingReq:{zh:'$100萬港元最近1個月資產證明; 貸款額需達貸款額之1倍', en:'HK$1M asset proof (last 1 month); proof must be ≥1× loan amount'},
+    annualFee:0,
+    products:['WIS3','GF_W','RF_S','IMP'],
+    note:{zh:'新平台; 按貸款年期分級利率 (6年:1.25% / 7年:1.3% / 8年:1.35% / 9-10年:1.4%)', en:'New platform; tiered rate by loan term (6y:1.25% / 7y:1.3% / 8y:1.35% / 9-10y:1.4%)'}
+  }
+];
+
+// ============ I18N (text-only, separate from elements with children) ============
+const T = {
+  zh: {
+    'brand':'Premium Financing Illustration',
+    'brandSub':'私 人 財 富 諮 詢 · 2026',
+    'modeAdvisor':'顧問模式', 'modeClient':'客戶模式', 'export':'匯出 PDF',
+    'sec-client':'客戶資料', 'sec-product':'投保產品', 'sec-bank':'融資銀行',
+    'sec-financing':'融資結構', 'sec-stress':'壓力測試',
+    'inp-name':'客戶姓名', 'inp-premium':'基本保費', 'inp-fx':'兌換匯率',
+    'inp-ltv':'LTV 貸款比例', 'inp-discount':'保費折扣',
+    'inp-rate':'融資年利率', 'inp-fulfillment':'紅利實現率',
+    'pg-eyebrow':'個 人 化 演 示',
+    'pg-product-lbl':'產品', 'pg-bank-lbl':'融資夥伴', 'pg-date-lbl':'報價日期',    'kpi-outlay':'自付資本', 'kpi-outlay-sub':'一筆過投入',
+    'kpi-leverage':'資本槓桿', 'kpi-breakeven':'回本年期', 'kpi-irr20':'20年期 IRR',
+    'kpi-irr-sub':'槓桿後內部回報率',
+    'chart-growth':'退保價值增長軌跡',
+    'leg-tsv':'總退保價值', 'leg-loan':'融資餘額',
+    'leg-withPf':'使用融資', 'leg-noPf':'純現金',
+    'sec-compareA':'純現金', 'sec-compareB':'融資槓桿',
+    'sec-yearLabel':'退保年份',
+    'cmp-noPf':'純 現 金 策 略', 'cmp-withPf':'融 資 槓 桿 策 略',
+    'cmp-fullCash':'Full Cash Strategy', 'cmp-leveraged':'Leveraged Strategy',
+    'cmp-outlay':'資本投入', 'cmp-outlay2':'資本投入',
+    'cmp-valueY':'退保時價值', 'cmp-valueY2':'退保時淨值',
+    'cmp-profit':'淨利潤', 'cmp-profit2':'淨利潤',
+    'cmp-irr':'內部回報率', 'cmp-irr2':'內部回報率',
+    'cmp-multiple':'資本倍數', 'cmp-multiple2':'資本倍數',
+    'chart-irr':'不同退保年份之 IRR 對比',
+    'sec-bankCompA':'融資銀行', 'sec-bankCompB':'平台對比',
+    'sec-bankMeta':'基於相同產品及客戶條件',
+    'sec-cashA':'20 年', 'sec-cashB':'完整現金流',
+    'sec-cashMeta':'所有金額以港幣計算',
+    'th-year':'年', 'th-gv':'保證價值', 'th-ngv':'非保證',
+    'th-tsv':'退保總值', 'th-interest':'當年利息',
+    'th-netCash':'淨現金', 'th-netProfit':'累計利潤', 'th-irr':'TIRR',
+    'disc-head':'重要事項及免責聲明',
+    'disc-body':'本說明書僅供示意用途，所載數字基於指定假設（包括融資利率、紅利實現率、保險公司預期回報），實際結果或有差異。保費融資涉及槓桿風險，包括但不限於利率上升、銀行追加保證金 (margin call)、紅利實現率低於預期等。內部回報率 (IRR) 之展示受香港保險業監管局 7% 上限規限。本演示已假設 1m HIBOR ≈ 3.35% 為計算基準。客戶應就個人財務狀況及風險承受能力諮詢專業意見。本文件不構成投資建議或要約。',
+    'sig-role':'FWD 保險顧問',
+    'unit-yr':'年', 'unit-yrShort':'年',
+    'breakeven-text':'TIRR 由負轉正',
+    'pageTitle': (name)=>`為 <span class="em">${name}</span> 而設的保費融資方案`,
+    'incompatibleBank': (bank)=>`${bank} 不接受此產品融資`,
+    'reset-toast':'壓力測試已重設',
+    'risk-rate-high':'<strong>利率警示：</strong>目前融資利率設定偏高 (>6%)，可能侵蝕大部分槓桿回報。',
+    'risk-fulfill-low':'<strong>實現率警示：</strong>紅利實現率設定偏低 (<80%)，反映悲觀情境，請與客戶充分討論。',
+    'risk-no-breakeven':'<strong>回本警示：</strong>在當前壓力情境下，20 年內未能回本。',
+    'irr-cap-warning':'<strong>合規提示：</strong>此 IRR 已接近 HKIA 7% 展示上限。',
+    'irr-cap-exceeded':'<strong>合規警示：</strong>此估算 IRR 超過 HKIA 7% 展示上限。Illustration 上應顯示 7%。',
+    'product-incompat':'銀行不適用',
+    'pdf-exporting':'匯出中...',
+    'pdf-failed':'匯出失敗：',
+    'pdf-empty':'PDF 內容生成失敗，請重試',
+    'minAsset-lbl':'門檻',
+    'rate-lbl':'利率', 'breakeven-lbl':'回本'
+  },
+  en: {
+    'brand':'Premium Financing Illustration',
+    'brandSub':'PRIVATE WEALTH ADVISORY · 2026',
+    'modeAdvisor':'Advisor View', 'modeClient':'Client View', 'export':'Export PDF',
+    'sec-client':'Client Profile', 'sec-product':'Insurance Product', 'sec-bank':'Financing Bank',
+    'sec-financing':'Loan Structure', 'sec-stress':'Stress Test',
+    'inp-name':'Client Name', 'inp-premium':'Basic Premium', 'inp-fx':'Exchange Rate',
+    'inp-ltv':'Loan-to-Value', 'inp-discount':'Premium Discount',
+    'inp-rate':'Financing Rate', 'inp-fulfillment':'Fulfillment Ratio',
+    'pg-eyebrow':'PERSONALISED ILLUSTRATION',
+    'pg-product-lbl':'Product', 'pg-bank-lbl':'Financing Partner', 'pg-date-lbl':'As of',
+    'kpi-outlay':'Initial Outlay', 'kpi-outlay-sub':'one-time capital',
+    'kpi-leverage':'Capital Leverage', 'kpi-breakeven':'Break-even', 'kpi-irr20':'20-Year IRR',
+    'kpi-irr-sub':'leveraged return',
+    'chart-growth':'Surrender Value Growth Trajectory',
+    'leg-tsv':'Total Surrender Value', 'leg-loan':'Outstanding Loan',
+    'leg-withPf':'With Financing', 'leg-noPf':'Cash-only',
+    'sec-compareA':'Cash', 'sec-compareB':'Financed',
+    'sec-yearLabel':'Surrender Year',
+    'cmp-noPf':'C A S H   O N L Y', 'cmp-withPf':'F I N A N C E D',
+    'cmp-fullCash':'Full Cash Strategy', 'cmp-leveraged':'Leveraged Strategy',
+    'cmp-outlay':'Capital Deployed', 'cmp-outlay2':'Capital Deployed',
+    'cmp-valueY':'Value at Surrender', 'cmp-valueY2':'Net Value at Surrender',
+    'cmp-profit':'Net Profit', 'cmp-profit2':'Net Profit',
+    'cmp-irr':'IRR', 'cmp-irr2':'IRR',
+    'cmp-multiple':'Capital Multiple', 'cmp-multiple2':'Capital Multiple',
+    'chart-irr':'IRR by Surrender Year',
+    'sec-bankCompA':'Financing Partner', 'sec-bankCompB':'Comparison',
+    'sec-bankMeta':'Same product & client conditions',
+    'sec-cashA':'20-Year', 'sec-cashB':'Cash Flow Schedule',
+    'sec-cashMeta':'All values in HKD',
+    'th-year':'Yr', 'th-gv':'Guaranteed', 'th-ngv':'Non-Guar.',
+    'th-tsv':'Total SV', 'th-interest':'Interest',
+    'th-netCash':'Net Cash', 'th-netProfit':'Cum. Profit', 'th-irr':'TIRR',
+    'disc-head':'Important Notice & Disclaimer',
+    'disc-body':'This illustration is for indicative purposes only. Figures are based on assumed financing rates, fulfillment ratios, and insurer projected returns; actual outcomes may vary. Premium financing involves leverage risk, including but not limited to rising interest rates, margin calls, and lower-than-expected fulfillment ratios. The IRR shown is subject to the 7.0% cap mandated by the Hong Kong Insurance Authority. This presentation assumes 1m HIBOR ≈ 3.35% as calculation basis. Clients should seek independent professional advice based on their personal financial situation and risk tolerance. This document does not constitute investment advice or an offer.',
+    'sig-role':'FWD INSURANCE CONSULTANT',
+    'unit-yr':' yrs', 'unit-yrShort':'yr',
+    'breakeven-text':'TIRR turns positive',
+    'pageTitle': (name)=>`A bespoke financing strategy for <span class="em">${name}</span>`,
+    'incompatibleBank': (bank)=>`${bank} does not accept financing for this product`,
+    'reset-toast':'Stress test parameters reset',
+    'risk-rate-high':'<strong>Rate Warning:</strong> Financing rate is set high (>6%), which may significantly erode leveraged returns.',
+    'risk-fulfill-low':'<strong>Fulfillment Warning:</strong> Fulfillment ratio is set low (<80%), reflecting a pessimistic scenario. Please discuss with client.',
+    'risk-no-breakeven':'<strong>Break-even Warning:</strong> Under current stress scenario, the policy does not break even within 20 years.',
+    'irr-cap-warning':'<strong>Compliance Notice:</strong> IRR is approaching the HKIA 7% display cap.',
+    'irr-cap-exceeded':'<strong>Compliance Alert:</strong> Estimated IRR exceeds the HKIA 7% display cap. Illustration should show 7%.',
+    'product-incompat':'Not eligible',
+    'pdf-exporting':'Exporting...',
+    'pdf-failed':'Export failed: ',
+    'pdf-empty':'PDF generation produced no content, please retry',
+    'minAsset-lbl':'Min',
+    'rate-lbl':'Rate', 'breakeven-lbl':'B/E'
+  }
+};
+
+// ============ STATE ============
+const DEFAULTS = {
+  premiumUSD: 200000, fxRate: 7.85,
+  ltv: 0.90, discount: 0.05,
+  rate: 0.0485, fulfillment: 1.0
+};
+const state = {...DEFAULTS};
+let currentLang = 'zh';
+let selectedBank = 'airstar-small';
+let selectedProduct = 'WIH';
+let selectedSurrenderYear = 20;
+let charts = {};
+let renderInProgress = false;
+
+// ============ HELPERS ============
+const $ = (id) => document.getElementById(id);
+const fmtHKD = (v) => isFinite(v) ? 'HK$' + Math.round(v).toLocaleString('en-US') : '—';
+const fmtPct = (v) => isFinite(v) ? (v*100).toFixed(2) + '%' : '—';
+const t = (key) => T[currentLang][key] || key;
+
+function showToast(msg, dur=2200){
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(showToast._tm);
+  showToast._tm = setTimeout(()=>el.classList.remove('show'), dur);
+}
+
+// ============ IRR (Newton-Raphson with bisection fallback) ============
+function irr(cashflows, guess=0.05){
+  // Try Newton-Raphson first
+  let r = guess;
+  for(let i=0;i<60;i++){
+    let npv=0, dnpv=0;
+    for(let t=0;t<cashflows.length;t++){
+      const f=Math.pow(1+r,t);
+      npv += cashflows[t]/f;
+      if(t>0) dnpv -= t*cashflows[t]/(f*(1+r));
+    }
+    if(Math.abs(npv)<1e-7) return r;
+    if(dnpv===0 || !isFinite(dnpv)) break;
+    const newR = r - npv/dnpv;
+    if(!isFinite(newR)) break;
+    if(Math.abs(newR-r)<1e-8) return newR;
+    r = Math.max(-0.99, Math.min(10, newR));
+  }
+  // Bisection fallback for tough cases
+  let lo = -0.99, hi = 10;
+  const npvAt = (rr) => cashflows.reduce((a,c,t)=>a + c/Math.pow(1+rr,t), 0);
+  let lov = npvAt(lo), hiv = npvAt(hi);
+  if(lov*hiv > 0) return r; // no sign change → return whatever Newton gave
+  for(let i=0;i<80;i++){
+    const mid = (lo+hi)/2;
+    const mv = npvAt(mid);
+    if(Math.abs(mv) < 1e-7) return mid;
+    if(lov*mv < 0){ hi = mid; hiv = mv; } else { lo = mid; lov = mv; }
+  }
+  return (lo+hi)/2;
+}
+
+// ============ COMPUTE ============
+function compute(opts={}){
+  const s = {...state, ...opts};
+  const productKey = opts.product || selectedProduct;
+  const product = PRODUCTS[productKey];
+  if(!product) return null;
+
+  const premiumHKD = s.premiumUSD * s.fxRate;
+  const day1SV = premiumHKD * 0.8;
+  const financing = day1SV * s.ltv;
+  const initialOutlay = premiumHKD * (1 - s.discount) - financing;
+  if(premiumHKD <= 0 || initialOutlay <= 0) return null;
+  const scaleFactor = premiumHKD / product.premium;
+
+  const rows = product.yearly.map(([yr,gv,div,sb])=>{
+    const gvScaled = gv * scaleFactor;
+    const ngvRatio = gv > 0 ? (div + sb) / gv : 0;
+    const ngvScaled = ngvRatio * gvScaled * s.fulfillment;
+    const tsvScaled = gvScaled + ngvScaled;
+    const interest = financing * s.rate;
+    return {year:yr, gv:gvScaled, ngv:ngvScaled, tsv:tsvScaled, interest, financing};
+  });
+
+  let cumInterest = 0;
+  rows.forEach((r,i)=>{
+    cumInterest += r.interest;
+    r.cumInterest = cumInterest;
+    r.netCash = r.tsv - financing;
+    r.netProfit = r.tsv - initialOutlay - financing - cumInterest;
+
+    // TIRR with PF
+    const cf = [-initialOutlay];
+    for(let j=0;j<r.year;j++){
+      if(j === r.year-1) cf.push(r.tsv - financing - r.interest);
+      else cf.push(-rows[j].interest);
+    }
+    r.tirr = irr(cf, 0.05);
+
+    // TIRR no PF
+    const cfNoPf = [-premiumHKD];
+    for(let j=0;j<r.year-1;j++) cfNoPf.push(0);
+    cfNoPf.push(r.tsv);
+    r.tirrNoPf = irr(cfNoPf, 0.03);
+  });
+
+  let breakEven = null;
+  for(const r of rows){
+    if(r.tirr > 0 && breakEven === null){ breakEven = r.year; break; }
+  }
+
+  return {premiumHKD, day1SV, financing, initialOutlay, leverage: premiumHKD/initialOutlay, rows, breakEven};
+}
+
+// ============ INPUT VALIDATION ============
+function validateInputs(){
+  let valid = true;
+  const premiumEl = $('premiumUSD');
+  const premiumVal = parseFloat(premiumEl.value);
+  if(!isFinite(premiumVal) || premiumVal < 10000 || premiumVal > 10000000){
+    premiumEl.classList.add('invalid');
+    $('err-premium').classList.add('show');
+    valid = false;
+  } else {
+    premiumEl.classList.remove('invalid');
+    $('err-premium').classList.remove('show');
+  }
+  const fxEl = $('fxRate');
+  const fxVal = parseFloat(fxEl.value);
+  if(!isFinite(fxVal) || fxVal < 6 || fxVal > 10){
+    fxEl.classList.add('invalid');
+    $('err-fx').classList.add('show');
+    valid = false;
+  } else {
+    fxEl.classList.remove('invalid');
+    $('err-fx').classList.remove('show');
+  }
+  return valid;
+}
+
+function syncStateFromUI(){
+  const pv = parseFloat($('premiumUSD').value);
+  const fx = parseFloat($('fxRate').value);
+  state.premiumUSD = (isFinite(pv) && pv >= 10000 && pv <= 10000000) ? pv : DEFAULTS.premiumUSD;  state.fxRate = (isFinite(fx) && fx >= 6 && fx <= 10) ? fx : DEFAULTS.fxRate;
+  state.ltv = parseFloat($('ltvSlider').value)/100;
+  state.discount = parseFloat($('discountSlider').value)/100;
+  state.rate = parseFloat($('rateSlider').value)/100;
+  state.fulfillment = parseFloat($('fulfillSlider').value)/100;
+}
+
+// ============ RENDER ============
+function render(){
+  if(renderInProgress) return;
+  renderInProgress = true;
+  try {
+    validateInputs();
+    syncStateFromUI();
+
+    // Slider value labels with severity colors
+    $('ltvVal').textContent = (state.ltv*100).toFixed(0) + '%';
+    $('discountVal').textContent = (state.discount*100).toFixed(1) + '%';
+    const rateValEl = $('rateVal');
+    rateValEl.textContent = (state.rate*100).toFixed(2) + '%';
+    rateValEl.className = 'value' + (state.rate > 0.06 ? ' danger' : (state.rate > 0.055 ? ' warn' : ''));
+    const fulfillValEl = $('fulfillVal');
+    fulfillValEl.textContent = (state.fulfillment*100).toFixed(0) + '%';
+    fulfillValEl.className = 'value' + (state.fulfillment < 0.8 ? ' danger' : (state.fulfillment < 0.9 ? ' warn' : ''));
+
+    // Page title — built fresh, no innerHTML on text-only nodes
+    const name = ($('clientName').value || (currentLang==='zh' ? '客戶' : 'Client')).trim();
+    $('pageTitle').innerHTML = T[currentLang]['pageTitle'](escapeHtml(name));
+
+    const bank = BANKS.find(b => b.id === selectedBank);
+    $('ptBank').textContent = bank.name[currentLang] + ' · ' + bank.accountName[currentLang];
+    $('ptProduct').textContent = PRODUCTS[selectedProduct].short[currentLang];
+
+    const result = compute();
+    if(!result){
+      // Invalid state - show placeholders
+      $('kpiOutlay').textContent = '—';
+      $('kpiLev').textContent = '—';
+      $('kpiBreak').textContent = '—';
+      $('kpiIRR').textContent = '—';
+      return;
+    }
+
+    // Surrender year dropdown
+    const yearSelect = $('surrenderYear');
+    if(yearSelect.options.length === 0){
+      result.rows.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.year;
+        opt.textContent = (currentLang==='zh' ? `第 ${r.year} 年` : `Year ${r.year}`);
+        if(r.year === selectedSurrenderYear) opt.selected = true;
+        yearSelect.appendChild(opt);
+      });
+    } else {
+      Array.from(yearSelect.options).forEach(opt => {
+        opt.textContent = (currentLang==='zh' ? `第 ${opt.value} 年` : `Year ${opt.value}`);
+      });
+    }
+
+    const selectedRow = result.rows.find(r => r.year === selectedSurrenderYear) || result.rows[result.rows.length-1];
+    const noPfTotalProfit = selectedRow.tsv - result.premiumHKD;
+    const noPfMult = selectedRow.tsv / result.premiumHKD;
+
+    // KPIs
+    $('kpiOutlay').innerHTML = fmtHKD(result.initialOutlay);
+    $('kpiLev').innerHTML = result.leverage.toFixed(2) + '<span class="small">×</span>';
+    $('kpiLevSub').textContent = fmtHKD(result.financing) + (currentLang==='zh' ? ' 銀行貸款' : ' financing');
+    if(result.breakEven){
+      $('kpiBreak').className = 'kpi-value pos';
+      $('kpiBreak').innerHTML = result.breakEven + '<span class="small">' + t('unit-yr') + '</span>';
+    } else {
+      $('kpiBreak').className = 'kpi-value neg';
+      $('kpiBreak').innerHTML = '20+<span class="small">' + t('unit-yr') + '</span>';
+    }
+    $('kpiBreakSub').textContent = t('breakeven-text');
+    const irrVal = (selectedRow.tirr*100);
+    $('kpiIRR').innerHTML = irrVal.toFixed(2) + '<span class="small">%</span>';
+
+    // Compare cards (use selectedRow)
+    $('np_outlay').textContent = fmtHKD(result.premiumHKD);
+    $('np_value').textContent = fmtHKD(selectedRow.tsv);
+    const npProfit = $('np_profit');
+    npProfit.textContent = fmtHKD(noPfTotalProfit);
+    npProfit.className = 'val ' + (noPfTotalProfit >= 0 ? 'pos' : 'neg');
+    $('np_irr').textContent = fmtPct(selectedRow.tirrNoPf);
+    $('np_mult').textContent = noPfMult.toFixed(2) + '×';
+
+    $('pf_outlay').textContent = fmtHKD(result.initialOutlay);
+    $('pf_value').textContent = fmtHKD(selectedRow.netCash);
+    const pfProfit = $('pf_profit');
+    pfProfit.textContent = fmtHKD(selectedRow.netProfit);
+    pfProfit.className = 'val ' + (selectedRow.netProfit >= 0 ? 'pos' : 'neg');
+    $('pf_irr').textContent = fmtPct(selectedRow.tirr);
+    const pfMult = (selectedRow.netProfit/result.initialOutlay + 1);
+    $('pf_mult').textContent = pfMult.toFixed(2) + '×';
+
+    // Cashflow table
+    const tbody = document.querySelector('#cashflowTable tbody');
+    tbody.innerHTML = '';
+    result.rows.forEach(r => {
+      const tr = document.createElement('tr');
+      if(r.year === result.breakEven) tr.classList.add('milestone');
+      const profitClass = r.netProfit >= 0 ? 'pos' : 'neg';
+      tr.innerHTML = `
+        <td>${r.year}</td>
+        <td>${fmtHKD(r.gv)}</td>
+        <td>${fmtHKD(r.ngv)}</td>
+        <td>${fmtHKD(r.tsv)}</td>
+        <td class="neg">(${fmtHKD(r.interest)})</td>
+        <td>${fmtHKD(r.netCash)}</td>
+        <td class="${profitClass}">${r.netProfit<0?'(':''}${fmtHKD(Math.abs(r.netProfit))}${r.netProfit<0?')':''}</td>
+        <td class="hl">${(r.tirr*100).toFixed(2)}%</td>`;
+      tbody.appendChild(tr);
+    });
+
+    // Risk banner
+    updateRiskBanner(result);
+
+    // Charts and bank compare wrapped separately so one failure doesn't cascade
+    try { renderCharts(result); } catch(e) { console.warn('Chart render skipped:', e.message); }
+    try { renderBankCompare(); } catch(e) { console.warn('Bank compare skipped:', e.message); }
+  } catch(e) {
+    console.error('Render error:', e);
+  } finally {
+    renderInProgress = false;
+  }
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function updateRiskBanner(result){
+  const banner = $('riskBanner');
+  const messages = [];
+  if(state.rate > 0.06) messages.push(t('risk-rate-high'));
+  if(state.fulfillment < 0.80) messages.push(t('risk-fulfill-low'));
+  if(!result.breakEven) messages.push(t('risk-no-breakeven'));
+  // IRR cap warning - check year 20
+  const last = result.rows[result.rows.length-1];
+  if(last && last.tirr >= 0.068 && last.tirr <= 0.072) messages.push(t('irr-cap-warning'));
+  if(last && last.tirr > 0.072) messages.push(t('irr-cap-exceeded'));
+
+  if(messages.length > 0){
+    banner.innerHTML = messages.join('<br>');
+    banner.classList.add('show');
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+function renderCharts(result){
+  if(typeof Chart === 'undefined'){
+    console.warn('Chart.js not loaded, skipping chart render');
+    return;
+  }
+  const labels = result.rows.map(r => 'Y'+r.year);
+  const tsvData = result.rows.map(r => Math.round(r.tsv));
+  const loanData = result.rows.map(() => Math.round(result.financing));
+  const irrData = result.rows.map(r => r.tirr*100);
+  const irrNoPfData = result.rows.map(r => r.tirrNoPf*100);
+
+  const greenGradient = (ctx) => {
+    const g = ctx.createLinearGradient(0,0,0,300);
+    g.addColorStop(0,'rgba(26,58,46,0.22)');
+    g.addColorStop(1,'rgba(26,58,46,0.01)');
+    return g;
+  };
+
+  if(charts.growth) charts.growth.destroy();
+  const ctx1 = $('growthChart').getContext('2d');
+  charts.growth = new Chart(ctx1, {
+    type:'line',
+    data:{labels, datasets:[
+      {label:t('leg-tsv'), data:tsvData, borderColor:'#1a3a2e', backgroundColor:greenGradient(ctx1),
+       borderWidth:2.5, fill:true, tension:0.35, pointRadius:0, pointHoverRadius:6,
+       pointHoverBackgroundColor:'#1a3a2e', pointHoverBorderColor:'#fff', pointHoverBorderWidth:2},
+      {label:t('leg-loan'), data:loanData, borderColor:'#6b7570', backgroundColor:'transparent',
+       borderWidth:1.5, borderDash:[5,4], pointRadius:0, tension:0}
+    ]},
+    options: chartOptions(true, false)
+  });
+
+  if(charts.irr) charts.irr.destroy();
+  const ctx2 = $('irrChart').getContext('2d');
+  charts.irr = new Chart(ctx2, {
+    type:'line',
+    data:{labels, datasets:[
+      {label:t('leg-withPf'), data:irrData, borderColor:'#1a3a2e', backgroundColor:'rgba(26,58,46,0.08)',
+       borderWidth:2.5, fill:false, tension:0.3, pointRadius:3,
+       pointBackgroundColor:'#1a3a2e', pointBorderColor:'#fff', pointBorderWidth:1.5},
+      {label:t('leg-noPf'), data:irrNoPfData, borderColor:'#8b6f47', backgroundColor:'transparent',
+       borderWidth:2, borderDash:[4,3], fill:false, tension:0.3, pointRadius:3,
+       pointBackgroundColor:'#8b6f47', pointBorderColor:'#fff', pointBorderWidth:1.5}
+    ]},
+    options: chartOptions(false, true)
+  });
+}
+
+function chartOptions(withCurrency=false, isPercent=false){
+  return {
+    responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index', intersect:false},
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        backgroundColor:'#1a1f1a', borderColor:'#8b6f47', borderWidth:1,
+        titleColor:'#a88858', bodyColor:'#faf6ef',
+        titleFont:{family:'Inter Tight', size:11, weight:'600'},
+        bodyFont:{family:'JetBrains Mono', size:11}, padding:12, cornerRadius:0,
+        callbacks:{label:(ctx)=>{
+          const v = ctx.parsed.y;
+          const fv = isPercent ? v.toFixed(2)+'%' : (withCurrency ? 'HK$'+Math.round(v).toLocaleString() : v);
+          return ctx.dataset.label + ':  ' + fv;
+        }}
+      }
+    },
+    scales:{
+      x:{grid:{color:'rgba(184,165,133,0.2)', drawTicks:false},
+         ticks:{color:'#6b7570', font:{family:'JetBrains Mono', size:10, weight:'500'}}},
+      y:{grid:{color:'rgba(184,165,133,0.2)', drawTicks:false},
+         ticks:{color:'#6b7570', font:{family:'JetBrains Mono', size:10, weight:'500'},
+                callback:(v)=> isPercent ? v.toFixed(1)+'%' : (withCurrency ? 'HK$'+(v/1000).toFixed(0)+'k' : v)}}
+    }
+  };
+}
+
+function renderBankCompare(){
+  const grid = $('bankCompareGrid');
+  grid.innerHTML = '';
+  const eligibleBanks = BANKS.filter(b => b.products.includes(selectedProduct));
+  if(eligibleBanks.length === 0){
+    grid.innerHTML = `<div style="grid-column:1/-1;padding:24px;text-align:center;color:var(--ink-soft);font-style:italic">
+      ${currentLang==='zh' ? '此產品暫無合資格融資銀行' : 'No eligible financing bank for this product'}</div>`;
+    return;
+  }
+
+  const results = eligibleBanks.map(b => {
+    const r = compute({rate:b.rate, ltv:b.ltv, product:selectedProduct});
+    return {bank:b, result:r, last: r ? r.rows[r.rows.length-1] : null};
+  }).filter(d => d.result && d.last);
+
+  if(results.length === 0){
+    grid.innerHTML = `<div style="grid-column:1/-1;padding:24px;text-align:center;color:var(--ink-soft)">—</div>`;
+    return;
+  }
+
+  const bestIdx = results.reduce((best, cur, i) => cur.last.tirr > results[best].last.tirr ? i : best, 0);
+
+  results.forEach((d, i) => {
+    const card = document.createElement('div');
+    card.className = 'bank-stat-card' + (i === bestIdx ? ' best' : '');
+    card.innerHTML = `
+      <div class="bank-stat-name">${escapeHtml(d.bank.name[currentLang])}</div>
+      <div class="bank-stat-account">${escapeHtml(d.bank.accountName[currentLang])}</div>
+      <div class="bank-stat-tag">${escapeHtml(d.bank.rateLabel)}</div>
+      <div class="bank-stat-row"><span class="lbl">${t('rate-lbl')}</span><span class="val">${(d.bank.rate*100).toFixed(2)}%</span></div>
+      <div class="bank-stat-row"><span class="lbl">LTV</span><span class="val">${(d.bank.ltv*100).toFixed(0)}%</span></div>
+      <div class="bank-stat-row"><span class="lbl">${t('minAsset-lbl')}</span><span class="val">${escapeHtml(d.bank.minAsset[currentLang])}</span></div>
+      <div class="bank-stat-row"><span class="lbl">${t('breakeven-lbl')}</span><span class="val">${d.result.breakEven || '20+'}${t('unit-yrShort')}</span></div>
+      <div class="bank-stat-row headline"><span class="lbl">20Y IRR</span><span class="val">${(d.last.tirr*100).toFixed(2)}%</span></div>
+      <div class="bank-stat-opening">${escapeHtml(d.bank.openingReq[currentLang])}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderBankSelector(){
+  const grid = $('bankGrid');
+  grid.innerHTML = '';
+  let lastGroup = null;
+  BANKS.forEach(b => {
+    const card = document.createElement('div');
+    const eligible = b.products.includes(selectedProduct);
+    card.className = 'bank-card' + (b.id === selectedBank ? ' active' : '') + (eligible ? '' : ' disabled');
+    const wihTag = eligible && b.products.includes('WIH') && selectedProduct === 'WIH'
+      ? '<span class="wih-flag">WIH ✓</span>' : '';
+    if(b.bankGroup !== lastGroup && lastGroup !== null){
+      const sep = document.createElement('div');
+      sep.style.cssText = 'height:1px;background:var(--line);margin:6px 0';
+      grid.appendChild(sep);
+    }
+    lastGroup = b.bankGroup;
+    card.innerHTML = `${wihTag}
+      <div class="bank-name">${escapeHtml(b.name[currentLang])}</div>
+      <div class="bank-account-name">${escapeHtml(b.accountName[currentLang])}</div>
+      <div class="bank-rate-line">
+        <span class="bank-rate-val">${(b.rate*100).toFixed(2)}%</span>
+        <span class="bank-rate-spread">${escapeHtml(b.rateLabel)}</span>
+      </div>
+      <div class="bank-opening">${escapeHtml(b.openingReq[currentLang])}</div>`;
+    card.onclick = () => {
+      if(!eligible){
+        showToast(T[currentLang]['incompatibleBank'](b.name[currentLang] + ' ' + b.accountName[currentLang]));
+        return;
+      }
+      selectedBank = b.id;
+      $('rateSlider').value = (b.rate*100).toFixed(2);
+      $('ltvSlider').value = (b.ltv*100).toFixed(0);
+      renderBankSelector();
+      render();
+    };
+    grid.appendChild(card);
+  });
+}
+
+// ============ I18N APPLY (text-only nodes only) ============
+function applyLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+  document.body.style.fontFamily = lang === 'zh'
+    ? "'Inter Tight', 'Noto Serif TC', sans-serif"
+    : "'Inter Tight', -apple-system, sans-serif";
+
+  // Apply to all elements with id starting with "t-"
+  const dict = T[lang];
+  Object.keys(dict).forEach(key => {
+    const el = $('t-' + key);
+    if(el && typeof dict[key] === 'string'){
+      el.textContent = dict[key];
+    }
+  });
+
+  // Special elements that don't follow t- pattern
+  $('t-brand').textContent = dict['brand'];
+  $('t-brandSub').textContent = dict['brandSub'];
+  $('exportBtn').textContent = dict['export'];
+  $('discBody').textContent = dict['disc-body'];
+
+  // Mode label
+  const isClient = document.body.classList.contains('client-mode');
+  $('modeLabel').textContent = isClient ? dict['modeClient'] : dict['modeAdvisor'];
+
+  // Lang button states
+  document.querySelectorAll('[data-lang-btn]').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang-btn') === lang);
+  });
+
+  // Product select option labels
+  const productSelect = $('productSelect');
+  Array.from(productSelect.options).forEach(opt => {
+    if(PRODUCTS[opt.value]){
+      const tag = opt.value === 'WIH' ? ' (WIH)' : opt.value === 'WIS3' ? ' (Supreme III)' :
+                  opt.value === 'GF_L' ? ' (GF Longevity)' : opt.value === 'GF_W' ? ' (GF Wealth)' :
+                  opt.value === 'NF_S' ? ' (Noble Fortune)' : opt.value === 'RF_S' ? ' (Regal Fortune)' :
+                  opt.value === 'IMP' ? ' (Imperial Wealth)' : '';
+      opt.textContent = PRODUCTS[opt.value].short[lang] + tag;
+    }
+  });
+
+  // Update data quality flag for current product
+  updateDataQualityFlag();
+
+  // Surrender year dropdown will be rebuilt in render()
+  // Re-render bank selector + main view to pick up language
+  renderBankSelector();
+  render();
+}
+
+// ============ EVENT BINDING ============
+function bindEvents(){
+  ['premiumUSD','fxRate','clientName'].forEach(id => {
+    $(id).addEventListener('input', () => {
+      // Debounce-lite: only update if validation reasonable
+      render();
+    });
+  });
+  ['ltvSlider','discountSlider','rateSlider','fulfillSlider'].forEach(id => {
+    $(id).addEventListener('input', render);
+  });
+
+  $('productSelect').addEventListener('change', e => {
+    selectedProduct = e.target.value;
+    const currentBank = BANKS.find(b => b.id === selectedBank);
+    if(!currentBank.products.includes(selectedProduct)){
+      const firstEligible = BANKS.find(b => b.products.includes(selectedProduct));
+      if(firstEligible){
+        selectedBank = firstEligible.id;
+        $('rateSlider').value = (firstEligible.rate*100).toFixed(2);
+        $('ltvSlider').value = (firstEligible.ltv*100).toFixed(0);
+        const bankFull = firstEligible.name[currentLang] + ' · ' + firstEligible.accountName[currentLang];
+        showToast(currentLang==='zh'
+          ? `已自動切換至 ${bankFull}`
+          : `Auto-switched to ${bankFull}`);
+      } else {
+        showToast(currentLang==='zh' ? '此產品無合資格融資銀行' : 'No eligible financing bank for this product');
+      }
+    }
+    updateDataQualityFlag();
+    renderBankSelector();
+    render();
+  });
+
+  $('surrenderYear').addEventListener('change', e => {
+    selectedSurrenderYear = parseInt(e.target.value, 10);
+    render();
+  });
+
+  $('resetStress').addEventListener('click', () => {
+    $('rateSlider').value = (DEFAULTS.rate*100).toFixed(2);
+    $('fulfillSlider').value = (DEFAULTS.fulfillment*100).toFixed(0);
+    $('ltvSlider').value = (DEFAULTS.ltv*100).toFixed(0);
+    $('discountSlider').value = (DEFAULTS.discount*100).toFixed(1);
+    render();
+    showToast(t('reset-toast'));
+  });
+
+  document.querySelectorAll('[data-lang-btn]').forEach(b => {
+    b.onclick = () => applyLang(b.getAttribute('data-lang-btn'));
+  });
+
+  $('modeToggle').onclick = () => {
+    const isClient = document.body.classList.toggle('client-mode');
+    $('modeToggle').classList.toggle('client-mode', isClient);
+    $('modeLabel').textContent = isClient ? T[currentLang]['modeClient'] : T[currentLang]['modeAdvisor'];
+  };
+
+  $('exportBtn').onclick = exportPDF;
+
+  // Keyboard shortcut: Ctrl/Cmd + L for language toggle
+  document.addEventListener('keydown', e => {
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l'){
+      e.preventDefault();
+      applyLang(currentLang === 'zh' ? 'en' : 'zh');
+    }
+  });
+}
+
+// ============ PDF EXPORT (rewritten v6: hybrid jsPDF native + html2canvas blocks) ============
+// Strategy: jsPDF controls layout/pagination/shapes natively; small DOM blocks rendered
+// via html2canvas as images for proper Chinese font support. Two-page A4 portrait layout.
+
+async function renderTextBlock(html, width, fontSizeBase = 14, opts = {}){
+  // Render text block to canvas. Default JPEG (smaller) with opaque bg.
+  // Pass {transparent:true} for cases needing alpha (rare here).
+  const bg = opts.bg || '#ffffff';
+  const div = document.createElement('div');
+  div.style.cssText = `position:absolute;left:-9999px;top:0;width:${width}px;
+    background:${bg};color:#1a1f1a;
+    font-family:'Inter Tight','Noto Serif TC',sans-serif;
+    font-size:${fontSizeBase}px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;`;
+  div.innerHTML = html;
+  document.body.appendChild(div);
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const scale = opts.scale || 1.6;
+  const canvas = await html2canvas(div, {
+    backgroundColor: opts.transparent ? null : bg,
+    scale, useCORS: true,
+    width: width, height: div.scrollHeight
+  });
+  document.body.removeChild(div);
+  const fmt = opts.transparent ? 'png' : 'jpeg';
+  const dataUrl = opts.transparent
+    ? canvas.toDataURL('image/png')
+    : canvas.toDataURL('image/jpeg', 0.90);
+  return { dataUrl, w: canvas.width / scale, h: canvas.height / scale, fmt: opts.transparent ? 'PNG' : 'JPEG' };
+}
+
+// For larger blocks (e.g. full table) — use JPEG, lower scale, opaque background to minimize file size
+async function renderTableImage(html, width){
+  const div = document.createElement('div');
+  div.style.cssText = `position:absolute;left:-9999px;top:0;width:${width}px;
+    background:#faf6ef;color:#1a1f1a;
+    font-family:'Inter Tight','Noto Serif TC',sans-serif;
+    -webkit-font-smoothing:antialiased;`;
+  div.innerHTML = html;
+  document.body.appendChild(div);
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const canvas = await html2canvas(div, {
+    backgroundColor: '#faf6ef', scale: 1.5, useCORS: true,
+    width: width, height: div.scrollHeight
+  });
+  document.body.removeChild(div);
+  return { dataUrl: canvas.toDataURL('image/jpeg', 0.92), w: canvas.width / 1.5, h: canvas.height / 1.5 };
+}
+
+async function exportPDF(){
+  const btn = $('exportBtn');
+  const orig = btn.textContent;
+  btn.textContent = T[currentLang]['pdf-exporting'];
+  btn.disabled = true;
+  try {
+    if(typeof window.jspdf === 'undefined' || typeof html2canvas === 'undefined'){
+      throw new Error('PDF libraries not loaded');
+    }
+
+    // Force render
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    const result = compute();
+    if(!result) throw new Error('Invalid computation state');
+    const last = result.rows[result.rows.length-1];
+    const lang = currentLang;
+    const tt = T[lang];
+    const bank = BANKS.find(b => b.id === selectedBank);
+    const product = PRODUCTS[selectedProduct];
+    const clientName = ($('clientName').value || (lang==='zh' ? '客戶' : 'Client')).trim();
+    const surrenderRow = result.rows.find(r => r.year === selectedSurrenderYear) || last;
+    const noPfTotalProfit = surrenderRow.tsv - result.premiumHKD;
+    const noPfMult = surrenderRow.tsv / result.premiumHKD;
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+    const PW = 210, PH = 297;
+    const M = 14; // margin
+    const CW = PW - M*2; // content width
+
+    // Color palette (RGB)
+    const C = {
+      ink: [26,31,26], inkSoft: [107,117,112], gold: [139,111,71],
+      goldDeep: [107,85,53], forest: [26,58,46], forestSoft: [45,80,67],
+      line: [217,207,190], lineSoft: [232,221,200], paper: [255,255,255],
+      bg: [250,246,239], pos: [61,106,79], neg: [161,75,58], warn: [184,137,58]
+    };
+    const setColor = (rgb, type='draw') => {
+      if(type==='draw') pdf.setDrawColor(rgb[0],rgb[1],rgb[2]);
+      else if(type==='fill') pdf.setFillColor(rgb[0],rgb[1],rgb[2]);
+      else pdf.setTextColor(rgb[0],rgb[1],rgb[2]);
+    };
+
+    // ======================= PAGE 1: COVER =======================
+    // Background
+    setColor(C.bg, 'fill');
+    pdf.rect(0, 0, PW, PH, 'F');
+
+    // ----- HEADER BAND -----
+    setColor(C.forest, 'fill');
+    pdf.rect(0, 0, PW, 22, 'F');
+
+    // Brand mark "P·F"
+    setColor([255,255,255], 'fill');
+    pdf.setDrawColor(255,255,255);
+    pdf.rect(M, 5, 12, 12);
+    pdf.setFontSize(12);
+    pdf.setFont('times','italic');
+    setColor([255,255,255], 'text');
+    pdf.text('PF', M + 6, 12.5, { align:'center' });
+
+    // Brand name
+    setColor([255,255,255], 'text');
+    pdf.setFont('times','normal');
+    pdf.setFontSize(13);
+    pdf.text('Premium Financing Illustration', M + 17, 11);
+    pdf.setFontSize(7);
+    setColor([201,180,140], 'text');
+    pdf.text('PRIVATE WEALTH ADVISORY  ·  2026', M + 17, 16);
+
+    // Date in top right
+    pdf.setFontSize(8);
+    setColor([255,255,255], 'text');
+    pdf.text(lang==='zh' ? '2026/04/24' : 'AS OF 24 APR 2026', PW - M, 11, { align:'right' });
+    pdf.setFontSize(7);
+    setColor([201,180,140], 'text');
+    pdf.text('PAGE 1 / 2', PW - M, 16, { align:'right' });
+
+    // ----- TITLE BLOCK (rendered via html2canvas for Chinese font) -----
+    const titleHtml = lang==='zh'
+      ? `<div style="font-family:'Noto Serif TC','Fraunces',serif;font-size:11px;letter-spacing:0.4em;color:#8b6f47;font-weight:700;margin-bottom:6px">個 人 化 演 示</div>
+         <div style="font-family:'Noto Serif TC','Fraunces',serif;font-size:34px;font-weight:500;color:#1a1f1a;line-height:1.1;letter-spacing:-0.01em">為 <span style="font-style:italic;color:#1a3a2e;font-weight:600">${escapeHtml(clientName)}</span> 而設的</div>
+         <div style="font-family:'Noto Serif TC','Fraunces',serif;font-size:34px;font-weight:500;color:#1a1f1a;line-height:1.1;letter-spacing:-0.01em">保費融資方案</div>`
+      : `<div style="font-family:'Fraunces',serif;font-size:11px;letter-spacing:0.4em;color:#8b6f47;font-weight:700;margin-bottom:6px">PERSONALISED  ILLUSTRATION</div>
+         <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:500;color:#1a1f1a;line-height:1.15;letter-spacing:-0.015em">A bespoke financing strategy for</div>
+         <div style="font-family:'Fraunces',serif;font-size:32px;font-style:italic;font-weight:600;color:#1a3a2e;line-height:1.15;letter-spacing:-0.015em">${escapeHtml(clientName)}</div>`;
+    const titleBlock = await renderTextBlock(titleHtml, CW * 3.78, 14); // 3.78 ≈ mm to px factor
+    pdf.addImage(titleBlock.dataUrl, titleBlock.fmt, M, 32, CW, titleBlock.h * (CW / titleBlock.w));
+
+    // ----- META ROW (product / bank / surrender year) -----
+    const metaY = 32 + titleBlock.h * (CW / titleBlock.w) + 6;
+    const metaHtml = `<div style="display:flex;gap:18px;font-family:'Inter Tight','Noto Serif TC',sans-serif;font-size:10px;color:#6b7570;font-weight:500">
+      <div><span style="color:#8b6f47">${lang==='zh' ? '產品' : 'PRODUCT'}</span>  <span style="color:#1a1f1a;font-weight:600">${escapeHtml(product.short[lang])}</span></div>
+      <div><span style="color:#8b6f47">${lang==='zh' ? '融資夥伴' : 'BANK'}</span>  <span style="color:#1a1f1a;font-weight:600">${escapeHtml(bank.name[lang])} · ${escapeHtml(bank.accountName[lang])}</span></div>
+      <div><span style="color:#8b6f47">${lang==='zh' ? '退保年份' : 'SURRENDER'}</span>  <span style="color:#1a1f1a;font-weight:600">${lang==='zh' ? '第 '+selectedSurrenderYear+' 年' : 'Year '+selectedSurrenderYear}</span></div>
+    </div>`;
+    const metaBlock = await renderTextBlock(metaHtml, CW * 3.78, 10);
+    pdf.addImage(metaBlock.dataUrl, metaBlock.fmt, M, metaY, CW, metaBlock.h * (CW / metaBlock.w));
+
+    // ----- 4 KPI CARDS -----
+    const kpiY = metaY + (metaBlock.h * (CW / metaBlock.w)) + 8;
+    const kpiH = 32;
+    const kpiW = CW / 4;
+
+    setColor(C.paper, 'fill');
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.2);
+    pdf.rect(M, kpiY, CW, kpiH, 'FD');
+    // Vertical separators
+    for(let i=1; i<4; i++){
+      pdf.line(M + kpiW*i, kpiY, M + kpiW*i, kpiY + kpiH);
+    }
+
+    const kpis = [
+      { label: tt['kpi-outlay'], value: fmtHKD(result.initialOutlay).replace('HK$','HK$ '), sub: tt['kpi-outlay-sub'], color: C.ink },
+      { label: tt['kpi-leverage'], value: result.leverage.toFixed(2)+'×', sub: fmtHKD(result.financing) + (lang==='zh' ? ' 銀行貸款' : ' financing'), color: C.gold },
+      { label: tt['kpi-breakeven'], value: (result.breakEven||'20+') + tt['unit-yr'], sub: tt['breakeven-text'], color: result.breakEven ? C.pos : C.neg },
+      { label: tt['kpi-irr20'], value: (surrenderRow.tirr*100).toFixed(2)+'%', sub: tt['kpi-irr-sub'], color: C.forest }
+    ];
+    // Render each KPI as image block
+    for(let i=0; i<4; i++){
+      const k = kpis[i];
+      const kpiHtml = `<div style="padding:10px 8px;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+        <div style="font-size:7.5px;letter-spacing:0.22em;color:#6b5535;text-transform:uppercase;font-weight:700;margin-bottom:8px">${escapeHtml(k.label)}</div>
+        <div style="font-family:'Fraunces','Noto Serif TC',serif;font-size:22px;font-weight:500;color:rgb(${k.color.join(',')});line-height:1;letter-spacing:-0.018em;font-variant-numeric:tabular-nums">${escapeHtml(k.value)}</div>
+        <div style="margin-top:6px;font-size:7px;color:#6b7570;font-family:'JetBrains Mono',monospace;font-weight:500">${escapeHtml(k.sub)}</div>
+      </div>`;
+      const kpiBlock = await renderTextBlock(kpiHtml, kpiW * 3.78, 10);
+      pdf.addImage(kpiBlock.dataUrl, kpiBlock.fmt, M + kpiW*i, kpiY, kpiW, kpiH);
+    }
+
+    // ----- COMPARISON SECTION -----
+    const cmpY = kpiY + kpiH + 12;
+    // Section title
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.2);
+    pdf.line(M, cmpY + 10, PW - M, cmpY + 10);
+
+    const sectTitleHtml = `<div style="font-family:'Fraunces','Noto Serif TC',serif;font-size:18px;font-weight:500;color:#1a1f1a;letter-spacing:-0.01em">
+      <span>${escapeHtml(tt['sec-compareA'])}</span> <span style="font-style:italic;color:#1a3a2e">vs.</span> <span>${escapeHtml(tt['sec-compareB'])}</span>
+    </div>`;
+    const sectBlock = await renderTextBlock(sectTitleHtml, CW * 3.78, 18);
+    pdf.addImage(sectBlock.dataUrl, sectBlock.fmt, M, cmpY, 100, sectBlock.h * (100/sectBlock.w));
+
+    // Compare cards: 2 columns
+    const cardY = cmpY + 14;
+    const cardH = 80;
+    const cardGap = 5;
+    const cardW = (CW - cardGap) / 2;
+
+    // Card 1: Cash (gray bg)
+    setColor(C.bg, 'fill');
+    setColor(C.line, 'draw');
+    pdf.rect(M, cardY, cardW, cardH, 'FD');
+    // Card 2: Financed (gradient + green top accent)
+    setColor(C.paper, 'fill');
+    setColor(C.forest, 'draw');
+    pdf.setLineWidth(0.3);
+    pdf.rect(M + cardW + cardGap, cardY, cardW, cardH, 'FD');
+    setColor(C.forest, 'fill');
+    pdf.rect(M + cardW + cardGap, cardY, cardW, 1.2, 'F');
+
+    // Render card content
+    const cashRows = [
+      [tt['cmp-outlay'], fmtHKD(result.premiumHKD)],
+      [tt['cmp-valueY'], fmtHKD(surrenderRow.tsv)],
+      [tt['cmp-profit'], fmtHKD(noPfTotalProfit), C.pos],
+      [tt['cmp-irr'], fmtPct(surrenderRow.tirrNoPf), C.forest, 'hl'],
+      [tt['cmp-multiple'], noPfMult.toFixed(2)+'×']
+    ];
+    const finRows = [
+      [tt['cmp-outlay'], fmtHKD(result.initialOutlay)],
+      [tt['cmp-valueY'], fmtHKD(surrenderRow.netCash)],
+      [tt['cmp-profit'], fmtHKD(surrenderRow.netProfit), surrenderRow.netProfit>=0 ? C.pos : C.neg],
+      [tt['cmp-irr'], fmtPct(surrenderRow.tirr), C.forest, 'hl'],
+      [tt['cmp-multiple'], (surrenderRow.netProfit/result.initialOutlay + 1).toFixed(2)+'×', C.forest, 'hl']
+    ];
+
+    const renderCardContent = async (x, y, w, h, tag, name, rows) => {
+      const rowsHtml = rows.map(r => {
+        const valColor = r[2] ? `rgb(${r[2].join(',')})` : '#1a1f1a';
+        const isHl = r[3] === 'hl';
+        return `<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed #d9cfbe;font-size:10.5px">
+          <span style="color:#3d4540;font-weight:500">${escapeHtml(r[0])}</span>
+          <span style="color:${valColor};font-family:'JetBrains Mono',monospace;font-weight:${isHl?'700':'600'};font-size:${isHl?'13px':'11px'};${isHl?"font-family:'Fraunces',serif;":''}">${escapeHtml(r[1])}</span>
+        </div>`;
+      }).join('');
+      const cardHtml = `<div style="padding:14px 14px;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+        <div style="font-size:8.5px;letter-spacing:0.28em;color:#1a3a2e;text-transform:uppercase;font-weight:700;margin-bottom:6px">${escapeHtml(tag)}</div>
+        <div style="font-family:'Fraunces',serif;font-size:18px;color:#1a1f1a;font-style:italic;font-weight:400;margin-bottom:10px">${escapeHtml(name)}</div>
+        ${rowsHtml}
+      </div>`;
+      const block = await renderTextBlock(cardHtml, w * 3.78, 11);
+      pdf.addImage(block.dataUrl, block.fmt, x, y, w, h);
+    };
+
+    await renderCardContent(M, cardY, cardW, cardH, tt['cmp-noPf'], tt['cmp-fullCash'], cashRows);
+    await renderCardContent(M + cardW + cardGap, cardY, cardW, cardH, tt['cmp-withPf'], tt['cmp-leveraged'], finRows);
+
+    // ----- BANK SUMMARY ROW -----
+    const bankY = cardY + cardH + 10;
+    const bankBoxH = 28;
+    setColor(C.paper, 'fill');
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.2);
+    pdf.rect(M, bankY, CW, bankBoxH, 'FD');
+    setColor(C.gold, 'fill');
+    pdf.rect(M, bankY, 1.5, bankBoxH, 'F');
+
+    const bankInfoHtml = `<div style="padding:8px 14px;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
+        <div>
+          <div style="font-size:8px;letter-spacing:0.22em;color:#6b5535;text-transform:uppercase;font-weight:700;margin-bottom:3px">${lang==='zh' ? '融資銀行' : 'FINANCING BANK'}</div>
+          <div style="font-family:'Fraunces',serif;font-size:14px;color:#1a1f1a;font-weight:600">${escapeHtml(bank.name[lang])}</div>
+          <div style="font-size:10px;color:#8b6f47;font-weight:600;margin-top:1px">${escapeHtml(bank.accountName[lang])}</div>
+          <div style="font-size:9px;color:#6b7570;margin-top:4px;line-height:1.4">${escapeHtml(bank.openingReq[lang])}</div>
+        </div>
+        <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#3d4540;line-height:1.6;white-space:nowrap">
+          <div><span style="color:#6b7570">${lang==='zh' ? '利率' : 'Rate'}</span>  <strong style="color:#1a3a2e">${(bank.rate*100).toFixed(2)}%</strong>  <span style="color:#6b7570;font-size:8.5px">${escapeHtml(bank.rateLabel)}</span></div>
+          <div><span style="color:#6b7570">LTV</span>  <strong>${(bank.ltv*100).toFixed(0)}%</strong>  &nbsp; <span style="color:#6b7570">${lang==='zh' ? '門檻' : 'Min'}</span>  <strong>${escapeHtml(bank.minAsset[lang])}</strong></div>
+        </div>
+      </div>
+    </div>`;
+    const bankInfoBlock = await renderTextBlock(bankInfoHtml, CW * 3.78, 10);
+    pdf.addImage(bankInfoBlock.dataUrl, bankInfoBlock.fmt, M, bankY, CW, bankBoxH);
+
+    // ----- FOOTER (disclaimer + signature) -----
+    const footY = PH - 40;
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.2);
+    pdf.line(M, footY, PW - M, footY);
+
+    const discHtml = `<div style="font-family:'Inter Tight','Noto Serif TC',sans-serif;font-size:7.5px;color:#6b7570;line-height:1.5;letter-spacing:0.01em">
+      <div style="font-size:8px;letter-spacing:0.28em;color:#6b5535;text-transform:uppercase;font-weight:700;margin-bottom:4px">${escapeHtml(tt['disc-head'])}</div>
+      <div>${escapeHtml(tt['disc-body'])}</div>
+    </div>`;
+    const discBlock = await renderTextBlock(discHtml, (CW - 50) * 3.78, 8);
+    pdf.addImage(discBlock.dataUrl, discBlock.fmt, M, footY + 4, CW - 50, discBlock.h * ((CW - 50) / discBlock.w));
+
+    // Signature block
+    const sigX = PW - M - 45;
+    const sigY = footY + 10;
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.3);
+    pdf.line(sigX, sigY, sigX + 45, sigY);
+    // Render signature with Chinese support via html2canvas
+    const sigHtml = `<div style="text-align:center;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+      <div style="font-size:7px;letter-spacing:0.24em;color:#8b6f47;text-transform:uppercase;font-weight:700;margin-bottom:3px">${escapeHtml(tt['sig-role'])}</div>
+      <div style="font-family:'Fraunces','Noto Serif TC',serif;font-size:13px;font-style:italic;color:#1a1f1a">Harry Mak</div>
+    </div>`;
+    const sigBlock = await renderTextBlock(sigHtml, 45 * 3.78, 8);
+    pdf.addImage(sigBlock.dataUrl, sigBlock.fmt, sigX, sigY + 1, 45, sigBlock.h * (45/sigBlock.w));
+
+    // ======================= PAGE 2: CASHFLOW TABLE =======================
+    pdf.addPage();
+    setColor(C.bg, 'fill');
+    pdf.rect(0, 0, PW, PH, 'F');
+
+    // Header band (smaller for page 2)
+    setColor(C.forest, 'fill');
+    pdf.rect(0, 0, PW, 14, 'F');
+    // Render full header with Chinese support
+    const p2HeaderHtml = `<div style="display:flex;justify-content:space-between;align-items:center;padding:0 0px;font-family:'Inter Tight','Noto Serif TC',sans-serif;color:#fff">
+      <div style="font-family:'Fraunces',serif;font-size:9px;font-style:italic">Premium Financing Illustration</div>
+      <div style="font-size:8px;color:#c9b48c;letter-spacing:0.04em">${escapeHtml(clientName)}  ·  ${escapeHtml(product.short[lang])}  ·  ${escapeHtml(bank.name[lang])}</div>
+      <div style="font-size:7.5px;color:#c9b48c;letter-spacing:0.16em;font-weight:600">PAGE 2 / 2</div>
+    </div>`;
+    const p2HeaderBlock = await renderTextBlock(p2HeaderHtml, (PW - M*2) * 3.78, 9);
+    pdf.addImage(p2HeaderBlock.dataUrl, p2HeaderBlock.fmt, M, 4, PW - M*2, p2HeaderBlock.h * ((PW-M*2)/p2HeaderBlock.w));
+
+    // Page 2 title
+    const p2TitleHtml = `<div style="font-family:'Inter Tight','Noto Serif TC',sans-serif">
+      <div style="font-size:9px;letter-spacing:0.36em;color:#8b6f47;text-transform:uppercase;font-weight:700;margin-bottom:4px">${lang==='zh' ? '完 整 現 金 流 表' : 'CASH FLOW SCHEDULE'}</div>
+      <div style="font-family:'Fraunces','Noto Serif TC',serif;font-size:24px;font-weight:500;color:#1a1f1a;letter-spacing:-0.01em">${lang==='zh' ? '20 年' : '20-Year'} <span style="font-style:italic;color:#1a3a2e">${lang==='zh' ? '完整現金流' : 'Complete Cash Flow'}</span></div>
+      <div style="font-size:9px;color:#6b7570;margin-top:4px;letter-spacing:0.04em">${lang==='zh' ? '所有金額以港幣計算 · ' : 'All values in HKD · '}${escapeHtml(bank.name[lang])} · ${escapeHtml(bank.accountName[lang])}</div>
+    </div>`;
+    const p2Title = await renderTextBlock(p2TitleHtml, CW * 3.78, 14);
+    pdf.addImage(p2Title.dataUrl, p2Title.fmt, M, 22, CW, p2Title.h * (CW / p2Title.w));
+
+    // ----- TABLE HEADER (native draw for sharpness + control) -----
+    const tableY = 22 + p2Title.h * (CW / p2Title.w) + 6;
+    const cols = [
+      { key:'year', label: tt['th-year'], w: 12, align:'center' },
+      { key:'gv', label: tt['th-gv'], w: 28, align:'right' },
+      { key:'ngv', label: tt['th-ngv'], w: 28, align:'right' },
+      { key:'tsv', label: tt['th-tsv'], w: 30, align:'right' },
+      { key:'interest', label: tt['th-interest'], w: 24, align:'right' },
+      { key:'netCash', label: tt['th-netCash'], w: 26, align:'right' },
+      { key:'netProfit', label: tt['th-netProfit'], w: 26, align:'right' },
+      { key:'irr', label: tt['th-irr'], w: 18, align:'right' }
+    ];
+    // Total width check
+    const totalW = cols.reduce((a,c) => a + c.w, 0);
+    const scaleX = CW / totalW;
+    cols.forEach(c => c.w *= scaleX);
+
+    // Header row
+    const headerH = 11;
+    setColor(C.bg, 'fill');
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.2);
+    pdf.rect(M, tableY, CW, headerH, 'FD');
+
+    // ----- TABLE: render header + all rows in ONE batched image (drastic file size reduction) -----
+    const rowH = 8.5;
+    const tableTotalH = headerH + rowH * result.rows.length;
+
+    // Build full table HTML (header + all rows) in one DOM block
+    const headerCellsHtml = cols.map(col =>
+      `<div style="width:${(col.w/CW*100).toFixed(2)}%;padding:3px 5px;text-align:${col.align};font-size:8px;letter-spacing:0.18em;color:#6b5535;text-transform:uppercase;font-weight:700;line-height:1.3;box-sizing:border-box">${escapeHtml(col.label)}</div>`
+    ).join('');
+
+    const allRowsHtml = result.rows.map((r, idx) => {
+      const isMilestone = r.year === result.breakEven;
+      const isAlt = idx % 2 === 1;
+      const bg = isMilestone ? '#ebf3ed' : (isAlt ? '#fcf9f3' : '#ffffff');
+      const profitColor = r.netProfit >= 0 ? '#3d6a4f' : '#a14b3a';
+      const yearColor = isMilestone ? '#3d6a4f' : '#1a3a2e';
+      return `<div style="display:flex;width:100%;align-items:center;background:${bg};border-bottom:1px solid #e8ddc8;height:${rowH * 3.78}px;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;line-height:1.2;box-sizing:border-box">
+        <div style="width:${(cols[0].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:center;font-family:'Fraunces','Noto Serif TC',serif;font-size:11px;color:${yearColor};font-weight:600;box-sizing:border-box">${r.year}</div>
+        <div style="width:${(cols[1].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.gv))}</div>
+        <div style="width:${(cols[2].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.ngv))}</div>
+        <div style="width:${(cols[3].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.tsv))}</div>
+        <div style="width:${(cols[4].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#a14b3a;font-weight:500;box-sizing:border-box">(${escapeHtml(fmtHKD(r.interest))})</div>
+        <div style="width:${(cols[5].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.netCash))}</div>
+        <div style="width:${(cols[6].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:${profitColor};font-weight:500;box-sizing:border-box">${r.netProfit<0 ? '('+escapeHtml(fmtHKD(Math.abs(r.netProfit)))+')' : escapeHtml(fmtHKD(r.netProfit))}</div>
+        <div style="width:${(cols[7].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9.5px;color:#1a3a2e;font-weight:700;box-sizing:border-box">${(r.tirr*100).toFixed(2)}%</div>
+      </div>`;
+    }).join('');
+
+    const fullTableHtml = `<div style="background:#faf6ef;border:1px solid #d9cfbe;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+      <div style="display:flex;width:100%;align-items:center;background:#f3ece0;border-bottom:1px solid #b8a585;height:${headerH * 3.78}px;box-sizing:border-box">${headerCellsHtml}</div>
+      ${allRowsHtml}
+    </div>`;
+
+    // Render entire table as ONE image (JPEG to save space)
+    const tableBlock = await renderTableImage(fullTableHtml, CW * 3.78);
+    pdf.addImage(tableBlock.dataUrl, 'JPEG', M, tableY, CW, tableTotalH);
+    let rowY = tableY + tableTotalH;
+
+    // Outer table border
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.3);
+    pdf.rect(M, tableY, CW, rowY - tableY);
+
+    // ----- KEY MILESTONES BAND (below table, summary callouts) -----
+    const milestoneY = rowY + 6;
+    if(milestoneY < PH - 30){
+      const y5 = result.rows.find(r=>r.year===5);
+      const y10 = result.rows.find(r=>r.year===10);
+      const y20 = last;
+      const milestoneBoxH = 18;
+      const mw = CW / 3 - 2;
+      const milestones = [
+        { yr: 5, irr: y5.tirr, profit: y5.netProfit, label: lang==='zh' ? '5 年退保' : 'Year 5 Surrender' },
+        { yr: 10, irr: y10.tirr, profit: y10.netProfit, label: lang==='zh' ? '10 年退保' : 'Year 10 Surrender' },
+        { yr: 20, irr: y20.tirr, profit: y20.netProfit, label: lang==='zh' ? '20 年退保' : 'Year 20 Surrender' }
+      ];
+      for(let i=0; i<3; i++){
+        const m = milestones[i];
+        const mx = M + (mw + 3) * i;
+        setColor(C.paper, 'fill');
+        setColor(C.line, 'draw');
+        pdf.setLineWidth(0.2);
+        pdf.rect(mx, milestoneY, mw, milestoneBoxH, 'FD');
+        setColor(C.forest, 'fill');
+        pdf.rect(mx, milestoneY, 1.2, milestoneBoxH, 'F');
+
+        const mHtml = `<div style="padding:4px 8px;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font-size:7.5px;letter-spacing:0.18em;color:#6b5535;text-transform:uppercase;font-weight:700">${escapeHtml(m.label)}</span>
+            <span style="font-family:'Fraunces',serif;font-size:14px;color:#1a3a2e;font-weight:600">${(m.irr*100).toFixed(2)}%</span>
+          </div>
+          <div style="margin-top:2px;font-size:8px;color:#6b7570;font-family:'JetBrains Mono',monospace">${lang==='zh' ? '淨利潤' : 'Net Profit'}: <span style="color:${m.profit>=0?'#3d6a4f':'#a14b3a'};font-weight:600">${fmtHKD(m.profit)}</span></div>
+        </div>`;
+        const mBlock = await renderTextBlock(mHtml, mw * 3.78, 10);
+        pdf.addImage(mBlock.dataUrl, mBlock.fmt, mx, milestoneY, mw, milestoneBoxH);
+      }
+    }
+
+    // Footer line on page 2
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.2);
+    pdf.line(M, PH - 12, PW - M, PH - 12);
+    const footerHtml = `<div style="text-align:center;font-family:'Inter Tight','Noto Serif TC',sans-serif;font-size:7px;color:#6b7570;letter-spacing:0.04em">${lang==='zh' ? '保費融資演示  ·  Harry Mak  ·  FWD 保險顧問' : 'Premium Financing Illustration  ·  Harry Mak  ·  FWD Insurance Consultant'}</div>`;
+    const footerBlock = await renderTextBlock(footerHtml, CW * 3.78, 7);
+    pdf.addImage(footerBlock.dataUrl, footerBlock.fmt, M, PH - 10, CW, footerBlock.h * (CW/footerBlock.w));
+
+    // ----- SAVE -----
+    const safeName = clientName.replace(/[^\w\u4e00-\u9fff\s-]/g, '').replace(/\s+/g,'_');
+    const dateStr = new Date().toISOString().slice(0,10);
+    pdf.save(`PF_Illustration_${safeName}_${dateStr}.pdf`);
+
+  } catch(e){
+    console.error('PDF export error:', e);
+    showToast(T[currentLang]['pdf-failed'] + (e.message || e), 4000);
+  } finally {
+    btn.textContent = orig;
+    btn.disabled = false;
+  }
+}
+
+function updateDataQualityFlag(){
+  const el = $('dataQualityFlag');
+  const product = PRODUCTS[selectedProduct];
+  if(!product) return;
+  if(product.dataQuality === 'verified'){
+    el.innerHTML = `<span style="color:var(--accent-pos)">●</span> ${currentLang==='zh' ? '已驗證 illustration 數據' : 'Verified illustration data'}`;
+  } else {
+    el.innerHTML = `<span style="color:var(--warn)">●</span> ${currentLang==='zh' ? '估算數據,實際請參考 illustration' : 'Estimated curve - refer to actual illustration'}`;
+  }
+}
+
+// ============ INIT ============
+function init(){
+  renderBankSelector();
+  bindEvents();
+  applyLang('zh');
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+
+</body>
+</html>
