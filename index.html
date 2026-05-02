@@ -442,11 +442,6 @@ body.client-mode .advisor-only{display:none}
       <select class="input-field" id="productSelect">
         <option value="WIH">智盈．超凡 (WIH)</option>
         <option value="WIS3">智盈匯聚 III (Supreme III)</option>
-        <option value="GF_L">創逸致富 豐裕版 (GF Longevity)</option>
-        <option value="GF_W">創逸致富 豐盛版 (GF Wealth)</option>
-        <option value="NF_S">寰薈致富 卓越版 (Noble Fortune)</option>
-        <option value="RF_S">寰悅致富 卓越版 (Regal Fortune)</option>
-        <option value="IMP">非凡匯聚 (Imperial Wealth)</option>
       </select>
       <div id="dataQualityFlag" style="margin-top:8px;font-size:10px;color:var(--ink-soft);font-weight:500;letter-spacing:0.04em"></div>
     </div>
@@ -593,7 +588,7 @@ body.client-mode .advisor-only{display:none}
 
       <div class="chart-card">
         <div class="chart-head">
-          <div class="chart-title" id="t-chart-profit">5 / 10 / 15 / 20 年 淨利潤對比</div>
+          <div class="chart-title" id="t-chart-profit">5 / 10 / 20 / 30 年 淨利潤對比</div>
           <div class="chart-legend">
             <div class="legend-item"><span class="legend-dot with-pf"></span><span id="t-leg-pfProfit">融資淨利潤</span></div>
             <div class="legend-item"><span class="legend-dot no-pf"></span><span id="t-leg-cashProfit">純現金淨利潤</span></div>
@@ -630,7 +625,7 @@ body.client-mode .advisor-only{display:none}
     <div class="section">
       <div class="section-head">
         <div class="section-title">
-          <span id="t-sec-cashA">20 年</span>
+          <span id="t-sec-cashA">30 年</span>
           <span class="em" id="t-sec-cashB">完整現金流</span>
         </div>
         <div class="section-meta" id="t-sec-cashMeta">所有金額以港幣計算</div>
@@ -678,10 +673,12 @@ body.client-mode .advisor-only{display:none}
 // ============ DATA ============
 const PRODUCTS = {
   WIH: {
-    name: {zh:'智盈．超凡 (Wealth ICON Horizon)', en:'WealthIcon Horizon'},
-    short: {zh:'智盈．超凡', en:'WealthIcon Horizon'},
-    dataQuality: 'verified',  // verified = from actual illustration
+    name: {zh:'智盈．超凡 (Wealth ICON Horizon)', en:'Wealth ICON Horizon'},
+    short: {zh:'智盈．超凡', en:'Wealth ICON Horizon'},
+    dataQuality: 'verified',  // Verified from FWD official illustration v[2.2] dated 2026-05-03
     premium: 200000,
+    // Yearly: [year, GV, accumDividend, specialBonus, TSV]
+    // Source: PolicyIllustration_Wealth_ICON_Horizon_Insurance_Plan.pdf (附錄 - 累積週年紅利情況, age 24 male non-smoker)
     yearly: [
       [1,160000,0,0,160000],[2,162000,5600,0,167600],[3,162000,11244,18200,191444],
       [4,162000,16934,28000,206934],[5,162000,22670,53200,237870],[6,162200,28451,59000,249651],
@@ -689,100 +686,35 @@ const PRODUCTS = {
       [10,163156,52043,115200,330399],[11,167256,58059,123200,348515],[12,172840,64124,131000,367964],
       [13,180038,70237,138200,388475],[14,189026,76398,145000,410424],[15,200030,82610,151400,434040],
       [16,200206,88871,174800,463877],[17,200404,95182,201400,496986],[18,200624,101543,231200,533367],
-      [19,200866,107955,264600,573421],[20,201128,114419,302200,617747]
+      [19,200866,107955,264600,573421],[20,201128,114419,302200,617747],
+      [21,201414,120934,334200,656548],[22,201724,127502,368800,698026],[23,202054,134122,406600,742776],
+      [24,202408,140795,447200,790403],[25,203004,147521,491000,841525],[26,203718,154301,538400,896419],
+      [27,204480,161136,589800,955416],[28,207320,168025,643200,1018545],[29,210160,174969,701400,1086529],
+      [30,213000,181969,764600,1159569]
     ]
   },
   WIS3: {
-    name: {zh:'智盈匯聚 (優越版) III', en:'WealthIcon Supreme III'},
-    short: {zh:'智盈匯聚 III', en:'WealthIcon Supreme III'},
-    dataQuality: 'estimated',
+    name: {zh:'智盈匯聚 (優越版) III', en:'Wealth ICON Supreme III'},
+    short: {zh:'智盈匯聚 III', en:'Wealth ICON Supreme III'},
+    dataQuality: 'verified',  // Verified from FWD official illustration v[9.2] dated 2026-05-03
     premium: 200000,
+    // Source: PolicyIllustration_Wealth_ICON_Supreme_III_Insurance_Plan.pdf (附錄 - 累積週年紅利情況, age 24 male non-smoker)
     yearly: [
-      [1,170000,0,0,170000],[2,172000,4800,0,176800],[3,172000,10500,15000,197500],
-      [4,172000,16200,24000,212200],[5,172000,21900,48000,241900],[6,172500,27800,54000,254300],
-      [7,173000,33700,60500,267200],[8,173500,39600,69500,282600],[9,174000,45500,87800,307300],
-      [10,174800,51400,105800,332000],[11,179000,57400,113500,349900],[12,185000,63300,121000,369300],
-      [13,193000,69200,128000,390200],[14,202500,75100,134500,412100],[15,213500,81000,141000,435500],
-      [16,213700,87100,162500,463300],[17,213900,93200,187200,494300],[18,214100,99300,214500,527900],
-      [19,214300,105400,245000,564700],[20,214500,111500,279500,605500]
-    ]
-  },
-  GF_L: {
-    name: {zh:'創逸致富 (豐裕版)', en:'Glorious Fortune Longevity'},
-    short: {zh:'創逸致富 豐裕', en:'GF Longevity'},
-    dataQuality: 'estimated',
-    premium: 200000,
-    yearly: [
-      [1,163200,0,0,163200],[2,165240,5320,0,170560],[3,165240,10682,17290,193212],
-      [4,165240,16087,26600,207927],[5,165240,21536,50540,237316],[6,165444,27028,56050,248522],
-      [7,165648,32565,62510,260723],[8,165852,38145,71820,275817],[9,166260,43770,90630,300660],
-      [10,166419,49441,109440,325300],[11,170601,55156,117040,342797],[12,176297,60918,124450,361665],
-      [13,183639,66725,131290,381654],[14,192807,72578,137750,403135],[15,204031,78480,143830,426341],
-      [16,204210,84427,166060,454697],[17,204412,90423,191330,486165],[18,204636,96466,219640,520742],
-      [19,204883,102557,251370,558810],[20,205151,108698,287090,600939]
-    ]
-  },
-  GF_W: {
-    name: {zh:'創逸致富 (豐盛版)', en:'Glorious Fortune Wealth'},
-    short: {zh:'創逸致富 豐盛', en:'GF Wealth'},
-    dataQuality: 'estimated',
-    premium: 200000,
-    yearly: [
-      [1,164000,0,0,164000],[2,166050,5152,0,171202],[3,166050,10344,16744,193138],
-      [4,166050,15579,25760,207389],[5,166050,20856,48944,235850],[6,166255,26175,54280,246710],
-      [7,166460,31537,60536,258533],[8,166665,36941,69552,273158],[9,167075,42388,87768,297231],
-      [10,167235,47880,105984,321099],[11,171437,53414,113344,338195],[12,177161,58994,120520,356675],
-      [13,184539,64618,127144,376301],[14,193752,70286,133400,397438],[15,205031,76001,139288,420320],
-      [16,205211,81761,160816,447788],[17,205414,87567,185288,478269],[18,205640,93420,212704,511764],
-      [19,205888,99319,243432,548639],[20,206156,105265,278024,589445]
-    ]
-  },
-  NF_S: {
-    name: {zh:'寰薈致富 (卓越版)', en:'Noble Fortune Signature'},
-    short: {zh:'寰薈致富 卓越', en:'Noble Fortune'},
-    dataQuality: 'estimated',
-    premium: 200000,
-    yearly: [
-      [1,163200,0,0,163200],[2,165240,5488,0,170728],[3,165240,11019,17836,194095],
-      [4,165240,16595,27440,209275],[5,165240,22217,52136,239593],[6,165444,27882,57820,251146],
-      [7,165648,33593,64484,263725],[8,165852,39350,74088,279290],[9,166260,45153,93492,304905],
-      [10,166419,51002,112896,330317],[11,170601,56898,120736,348235],[12,176297,62842,128380,367519],
-      [13,183639,68832,135436,387907],[14,192807,74870,142100,409777],[15,204031,80958,148372,433361],
-      [16,204210,87094,171304,462608],[17,204412,93278,197372,495062],[18,204636,99512,226576,530724],
-      [19,204883,105796,259308,569987],[20,205151,112131,296156,613438]
-    ]
-  },
-  RF_S: {
-    name: {zh:'寰悅致富 (卓越版)', en:'Regal Fortune Signature'},
-    short: {zh:'寰悅致富 卓越', en:'Regal Fortune'},
-    dataQuality: 'estimated',
-    premium: 200000,
-    yearly: [
-      [1,162880,0,0,162880],[2,164916,5432,0,170348],[3,164916,10907,17654,193477],
-      [4,164916,16426,27160,208502],[5,164916,21990,51604,238510],[6,165120,27597,57230,249947],
-      [7,165323,33251,63826,262400],[8,165527,38948,73332,277807],[9,165934,44692,92538,303164],
-      [10,166093,50482,111744,328319],[11,170267,56317,119504,346088],[12,175951,62200,127070,365221],
-      [13,183279,68130,134054,385463],[14,192428,74106,140650,407184],[15,203631,80132,146858,430621],
-      [16,203810,86205,169556,459571],[17,204011,92327,195358,491696],[18,204235,98497,224264,526996],
-      [19,204482,104716,256662,565860],[20,204748,110986,293134,608868]
-    ]
-  },
-  IMP: {
-    name: {zh:'非凡匯聚', en:'Imperial Wealth'},
-    short: {zh:'非凡匯聚', en:'Imperial Wealth'},
-    dataQuality: 'estimated',
-    premium: 200000,
-    yearly: [
-      [1,160000,0,0,160000],[2,162000,5600,0,167600],[3,162000,11244,18200,191444],
-      [4,162000,16934,28000,206934],[5,162000,22670,53200,237870],[6,162200,28451,59000,249651],
-      [7,162400,34279,65800,262479],[8,162600,40153,75600,278353],[9,163000,46074,95400,304474],
-      [10,163156,52043,115200,330399],[11,167256,58059,123200,348515],[12,172840,64124,131000,367964],
-      [13,180038,70237,138200,388475],[14,189026,76398,145000,410424],[15,200030,82610,151400,434040],
-      [16,200206,88871,174800,463877],[17,200404,95182,201400,496986],[18,200624,101543,231200,533367],
-      [19,200866,107955,264600,573421],[20,201128,114419,302200,617747]
+      [1,160000,0,0,160000],[2,160000,0,0,160000],[3,173000,100,19200,192300],
+      [4,184200,243,21800,206243],[5,196000,432,26800,223232],[6,200400,629,37800,238829],
+      [7,203200,872,50400,254472],[8,206200,1185,66400,273785],[9,209800,1509,78400,289709],
+      [10,213400,1886,95400,310686],[11,215400,2277,107400,325077],[12,217400,2722,119800,339922],
+      [13,219600,3184,132600,355384],[14,221800,3664,146200,371664],[15,224200,4201,160400,388801],
+      [16,226800,4759,175400,406959],[17,229400,5337,191000,425737],[18,232200,5977,207200,445377],
+      [19,235200,6641,224400,466241],[20,238200,7331,242200,487731],
+      [21,241400,8105,261000,510505],[22,244800,8909,280800,534509],[23,248200,9784,301400,559384],
+      [24,252000,10690,323200,585890],[25,255800,11671,346000,613471],[26,259800,12689,370000,642489],
+      [27,264000,13785,395000,672785],[28,268400,14962,421400,704762],[29,273000,16183,449200,738383],
+      [30,277800,17510,478400,773710]
     ]
   }
 };
+
 
 const HIBOR_1M = 0.0335;
 // Source: FWD HNW Banking Platform Brief, 2026/04/24
@@ -799,7 +731,7 @@ const BANKS = [
     minAsset:{zh:'貸款 ≥ $200萬', en:'Loan ≥ HK$2M'},
     openingReq:{zh:'無留存資產要求', en:'No min asset requirement'},
     annualFee:0,
-    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    products:['WIH','WIS3'],
     note:{zh:'貸款≥$200萬全期豁免 0.25% 年費', en:'Annual fee waived for loans ≥$2M'}
   },
   {
@@ -812,7 +744,7 @@ const BANKS = [
     minAsset:{zh:'$10萬港元或以上', en:'HK$100K or above'},
     openingReq:{zh:'手機APP「保融易」申請; 貸款額 $10萬–$3000萬', en:'Apply via "保融易" mobile app; Loan $100K–$30M'},
     annualFee:0.0025,
-    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    products:['WIH','WIS3'],
     note:{zh:'每年 0.25% 年費', en:'0.25% annual fee'}
   },
   {
@@ -825,7 +757,7 @@ const BANKS = [
     minAsset:{zh:'$50萬港元', en:'HK$500K'},
     openingReq:{zh:'$50萬現金或等值理財產品', en:'HK$500K cash or equivalent wealth products'},
     annualFee:0.005,
-    products:['WIS3','GF_L','GF_W'],
+    products:['WIS3'],
     note:{zh:'(A)H+1% 無 P-Cap; 或 (B)H+1.2%/P-1% 取較低 (收 0.5% 一次性手續費)', en:'(A) H+1% no P-Cap; or (B) H+1.2%/P-1% (with 0.5% one-off fee)'}
   },
   {
@@ -838,7 +770,7 @@ const BANKS = [
     minAsset:{zh:'無', en:'None'},
     openingReq:{zh:'無留存資產要求', en:'No min asset requirement'},
     annualFee:0,
-    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    products:['WIH','WIS3'],
     note:{zh:'入門級戶口,無資產門檻', en:'Entry-level account, no asset threshold'}
   },
   {
@@ -851,7 +783,7 @@ const BANKS = [
     minAsset:{zh:'$100萬港元', en:'HK$1M'},
     openingReq:{zh:'$100萬現金或等值理財產品', en:'HK$1M cash or equivalent wealth products'},
     annualFee:0,
-    products:['WIH','WIS3','GF_L','GF_W','NF_S'],
+    products:['WIH','WIS3'],
     note:{zh:'宏富理財客戶專屬利率', en:'Premier banking exclusive rate'}
   },
   {
@@ -864,7 +796,7 @@ const BANKS = [
     minAsset:{zh:'$400萬港元', en:'HK$4M'},
     openingReq:{zh:'$400萬現金或等值理財產品', en:'HK$4M cash or equivalent wealth products'},
     annualFee:0,
-    products:['WIS3','GF_W','RF_S','IMP'],
+    products:['WIS3'],
     note:{zh:'豐盛理財 — 接受 Imperial / Regal Fortune 等高端產品', en:'PPC — accepts Imperial / Regal Fortune high-end products'}
   },
   {
@@ -877,7 +809,7 @@ const BANKS = [
     minAsset:{zh:'$300萬港元', en:'HK$3M'},
     openingReq:{zh:'$300萬港元 (不包括定期存款); 開戶日只需$50萬,5天內存入餘下$50萬*', en:'HK$3M (excluding time deposits); HK$500K on day 1, remaining HK$500K within 5 days*'},
     annualFee:0,
-    products:['WIS3','GF_L','GF_W'],
+    products:['WIS3'],
     note:{zh:'CITICdiamond 鑽石客戶專享; 只接受境內資產; 美金保單可借美金或港元', en:'CITICdiamond exclusive; HK assets only; USD/HKD loans for USD policies'}
   },
   {
@@ -890,7 +822,7 @@ const BANKS = [
     minAsset:{zh:'$50萬港元', en:'HK$500K'},
     openingReq:{zh:'$50萬港元; 個人理財總值持續 < $50萬須付 $200/月服務費', en:'HK$500K; service fee HK$200/mo if asset < HK$500K'},
     annualFee:0,
-    products:['WIH','WIS3','GF_L','GF_W'],
+    products:['WIH','WIS3'],
     note:{zh:'入門 VIP Banking', en:'Entry VIP Banking tier'}
   },
   {
@@ -903,7 +835,7 @@ const BANKS = [
     minAsset:{zh:'$1000萬港元', en:'HK$10M'},
     openingReq:{zh:'$1000萬港元; 連續3個月個人理財總值 < $100萬須付 $200/月 (新客首6個月豁免)', en:'HK$10M; HK$200/mo if 3-mo avg < HK$1M (waived first 6 months for new clients)'},
     annualFee:0,
-    products:['WIH','WIS3','GF_L','GF_W'],
+    products:['WIH','WIS3'],
     note:{zh:'首5年 H+1.2%/P-2.1%, 其後 H+1.2%; 只適用於 DBS 豐盛理財全新客戶', en:'First 5y H+1.2%/P-2.1%; then H+1.2%; New DBS Treasures clients only'}
   },
   {
@@ -916,7 +848,7 @@ const BANKS = [
     minAsset:{zh:'$2000萬港元', en:'HK$20M'},
     openingReq:{zh:'$2000萬港元; 最高級 VIP Banking', en:'HK$20M; Top-tier VIP Banking'},
     annualFee:0,
-    products:['WIH','WIS3','GF_L','GF_W'],
+    products:['WIH','WIS3'],
     note:{zh:'最高級別 — 首2年享 Cap 3.8% 利率保護', en:'Top tier — first 2y rate cap at 3.8%'}
   },
   {
@@ -929,7 +861,7 @@ const BANKS = [
     minAsset:{zh:'$100萬港元', en:'HK$1M'},
     openingReq:{zh:'$100萬港元最近1個月資產證明; 貸款額需達貸款額之1倍', en:'HK$1M asset proof (last 1 month); proof must be ≥1× loan amount'},
     annualFee:0,
-    products:['WIS3','GF_W','RF_S','IMP'],
+    products:['WIS3'],
     note:{zh:'新平台; 按貸款年期分級利率 (6年:1.25% / 7年:1.3% / 8年:1.35% / 9-10年:1.4%)', en:'New platform; tiered rate by loan term (6y:1.25% / 7y:1.3% / 8y:1.35% / 9-10y:1.4%)'}
   }
 ];
@@ -962,7 +894,7 @@ const T = {
     'cmp-irr':'內部回報率', 'cmp-irr2':'內部回報率',
     'cmp-multiple':'資本倍數', 'cmp-multiple2':'資本倍數',
     'chart-irr':'不同退保年份之 IRR 對比',
-    'chart-profit':'5 / 10 / 15 / 20 年 淨利潤對比',
+    'chart-profit':'5 / 10 / 20 / 30 年 淨利潤對比',
     'chart-breakeven':'累計現金流 · 回本軌跡',
     'leg-pfProfit':'融資淨利潤','leg-cashProfit':'純現金淨利潤',
     'leg-cumPf':'累計淨現金','leg-zeroLine':'回本線 (零)',
@@ -972,7 +904,7 @@ const T = {
     'narr-breakeven':'綠色區域 = 已回本盈利;橙色 = 仍處於利息持有期。融資策略首數年呈負累計現金流(支付利息),典型於第 4-6 年穿越零線進入正利潤區間。',
     'sec-bankCompA':'融資銀行', 'sec-bankCompB':'平台對比',
     'sec-bankMeta':'基於相同產品及客戶條件',
-    'sec-cashA':'20 年', 'sec-cashB':'完整現金流',
+    'sec-cashA':'30 年', 'sec-cashB':'完整現金流',
     'sec-cashMeta':'所有金額以港幣計算',
     'th-year':'年', 'th-gv':'保證價值', 'th-ngv':'非保證',
     'th-tsv':'退保總值', 'th-interest':'當年利息',
@@ -987,7 +919,7 @@ const T = {
     'reset-toast':'壓力測試已重設',
     'risk-rate-high':'<strong>利率警示：</strong>目前融資利率設定偏高 (>6%)，可能侵蝕大部分槓桿回報。',
     'risk-fulfill-low':'<strong>實現率警示：</strong>紅利實現率設定偏低 (<80%)，反映悲觀情境，請與客戶充分討論。',
-    'risk-no-breakeven':'<strong>回本警示：</strong>在當前壓力情境下，20 年內未能回本。',
+    'risk-no-breakeven':'<strong>回本警示：</strong>在當前壓力情境下，30 年內未能回本。',
     'cash-irr-cap-warning':'<strong>合規檢查：</strong>保單未槓桿之 cash IRR 超過 HKIA 7% 上限,illustration 數據可能需要重新對齊。槓桿後 IRR 不受此限。',
     'product-incompat':'銀行不適用',
     'pdf-exporting':'匯出中...',
@@ -1023,7 +955,7 @@ const T = {
     'cmp-irr':'IRR', 'cmp-irr2':'IRR',
     'cmp-multiple':'Capital Multiple', 'cmp-multiple2':'Capital Multiple',
     'chart-irr':'IRR by Surrender Year',
-    'chart-profit':'Net Profit Comparison · Year 5 / 10 / 15 / 20',
+    'chart-profit':'Net Profit Comparison · Year 5 / 10 / 20 / 30',
     'chart-breakeven':'Cumulative Cash Flow · Break-even Trajectory',
     'leg-pfProfit':'Financed Net Profit','leg-cashProfit':'Cash-only Net Profit',
     'leg-cumPf':'Cumulative Net Cash','leg-zeroLine':'Break-even (zero)',
@@ -1033,7 +965,7 @@ const T = {
     'narr-breakeven':'Green zone = profitable post-break-even; orange = still in interest-carry period. Financing strategy shows negative cumulative cash flow in early years (interest payments), typically crossing zero between Year 4–6.',
     'sec-bankCompA':'Financing Partner', 'sec-bankCompB':'Comparison',
     'sec-bankMeta':'Same product & client conditions',
-    'sec-cashA':'20-Year', 'sec-cashB':'Cash Flow Schedule',
+    'sec-cashA':'30-Year', 'sec-cashB':'Cash Flow Schedule',
     'sec-cashMeta':'All values in HKD',
     'th-year':'Yr', 'th-gv':'Guaranteed', 'th-ngv':'Non-Guar.',
     'th-tsv':'Total SV', 'th-interest':'Interest',
@@ -1048,7 +980,7 @@ const T = {
     'reset-toast':'Stress test parameters reset',
     'risk-rate-high':'<strong>Rate Warning:</strong> Financing rate is set high (>6%), which may significantly erode leveraged returns.',
     'risk-fulfill-low':'<strong>Fulfillment Warning:</strong> Fulfillment ratio is set low (<80%), reflecting a pessimistic scenario. Please discuss with client.',
-    'risk-no-breakeven':'<strong>Break-even Warning:</strong> Under current stress scenario, the policy does not break even within 20 years.',
+    'risk-no-breakeven':'<strong>Break-even Warning:</strong> Under current stress scenario, the policy does not break even within 30 years.',
     'cash-irr-cap-warning':'<strong>Compliance Check:</strong> Unleveraged cash IRR exceeds HKIA 7% cap; illustration data may need realignment. Leveraged IRR is not subject to this cap.',
     'product-incompat':'Not eligible',
     'pdf-exporting':'Exporting...',
@@ -1273,11 +1205,18 @@ function render(){
       $('kpiBreak').innerHTML = result.breakEven + '<span class="small">' + t('unit-yr') + '</span>';
     } else {
       $('kpiBreak').className = 'kpi-value neg';
-      $('kpiBreak').innerHTML = '20+<span class="small">' + t('unit-yr') + '</span>';
+      $('kpiBreak').innerHTML = '30+<span class="small">' + t('unit-yr') + '</span>';
     }
     $('kpiBreakSub').textContent = t('breakeven-text');
     const irrVal = (selectedRow.tirr*100);
     $('kpiIRR').innerHTML = irrVal.toFixed(2) + '<span class="small">%</span>';
+    // Update IRR label to reflect selected year
+    const irrLbl = $('t-kpi-irr20');
+    if(irrLbl){
+      irrLbl.textContent = currentLang === 'zh'
+        ? `第 ${selectedRow.year} 年 IRR`
+        : `Year-${selectedRow.year} IRR`;
+    }
 
     // Compare cards (use selectedRow)
     $('np_outlay').textContent = fmtHKD(result.premiumHKD);
@@ -1404,7 +1343,7 @@ function renderCharts(result){
 
   // ============ Profit Comparison Bar Chart (Y5/10/15/20) ============
   if(charts.profit) charts.profit.destroy();
-  const profitYears = [5, 10, 15, 20];
+  const profitYears = [5, 10, 20, 30];
   const pfProfitData = profitYears.map(y => {
     const r = result.rows.find(rr => rr.year === y);
     return r ? Math.round(r.netProfit) : 0;
@@ -1564,7 +1503,7 @@ function renderBankCompare(){
       <div class="bank-stat-row"><span class="lbl">${t('rate-lbl')}</span><span class="val">${(d.bank.rate*100).toFixed(2)}%</span></div>
       <div class="bank-stat-row"><span class="lbl">LTV</span><span class="val">${(d.bank.ltv*100).toFixed(0)}%</span></div>
       <div class="bank-stat-row"><span class="lbl">${t('minAsset-lbl')}</span><span class="val">${escapeHtml(d.bank.minAsset[currentLang])}</span></div>
-      <div class="bank-stat-row"><span class="lbl">${t('breakeven-lbl')}</span><span class="val">${d.result.breakEven || '20+'}${t('unit-yrShort')}</span></div>
+      <div class="bank-stat-row"><span class="lbl">${t('breakeven-lbl')}</span><span class="val">${d.result.breakEven || '30+'}${t('unit-yrShort')}</span></div>
       <div class="bank-stat-row headline"><span class="lbl">20Y IRR</span><span class="val">${(d.last.tirr*100).toFixed(2)}%</span></div>
       <div class="bank-stat-opening">${escapeHtml(d.bank.openingReq[currentLang])}</div>
     `;
@@ -1643,15 +1582,16 @@ function applyLang(lang){
     b.classList.toggle('active', b.getAttribute('data-lang-btn') === lang);
   });
 
-  // Product select option labels
+  // Product select option labels — ZH appends product code, EN uses full name only
   const productSelect = $('productSelect');
   Array.from(productSelect.options).forEach(opt => {
     if(PRODUCTS[opt.value]){
-      const tag = opt.value === 'WIH' ? ' (WIH)' : opt.value === 'WIS3' ? ' (Supreme III)' :
-                  opt.value === 'GF_L' ? ' (GF Longevity)' : opt.value === 'GF_W' ? ' (GF Wealth)' :
-                  opt.value === 'NF_S' ? ' (Noble Fortune)' : opt.value === 'RF_S' ? ' (Regal Fortune)' :
-                  opt.value === 'IMP' ? ' (Imperial Wealth)' : '';
-      opt.textContent = PRODUCTS[opt.value].short[lang] + tag;
+      if(lang === 'zh'){
+        const tag = opt.value === 'WIH' ? ' (WIH)' : ' (Supreme III)';
+        opt.textContent = PRODUCTS[opt.value].short[lang] + tag;
+      } else {
+        opt.textContent = PRODUCTS[opt.value].short[lang];
+      }
     }
   });
 
@@ -1859,7 +1799,7 @@ async function exportPDF(){
     pdf.text(lang==='zh' ? '2026/04/24' : 'AS OF 24 APR 2026', PW - M, 11, { align:'right' });
     pdf.setFontSize(7);
     setColor([201,180,140], 'text');
-    pdf.text('PAGE 1 / 2', PW - M, 16, { align:'right' });
+    pdf.text('PAGE 1 / 3', PW - M, 16, { align:'right' });
 
     // ----- TITLE BLOCK (rendered via html2canvas for Chinese font) -----
     const titleHtml = lang==='zh'
@@ -1899,7 +1839,7 @@ async function exportPDF(){
     const kpis = [
       { label: tt['kpi-outlay'], value: fmtHKD(result.initialOutlay).replace('HK$','HK$ '), sub: tt['kpi-outlay-sub'], color: C.ink },
       { label: tt['kpi-leverage'], value: result.leverage.toFixed(2)+'×', sub: fmtHKD(result.financing) + (lang==='zh' ? ' 銀行貸款' : ' financing'), color: C.gold },
-      { label: tt['kpi-breakeven'], value: (result.breakEven||'20+') + tt['unit-yr'], sub: tt['breakeven-text'], color: result.breakEven ? C.pos : C.neg },
+      { label: tt['kpi-breakeven'], value: (result.breakEven||'30+') + tt['unit-yr'], sub: tt['breakeven-text'], color: result.breakEven ? C.pos : C.neg },
       { label: tt['kpi-irr20'], value: (surrenderRow.tirr*100).toFixed(2)+'%', sub: tt['kpi-irr-sub'], color: C.forest }
     ];
     // Render each KPI as image block
@@ -2036,7 +1976,124 @@ async function exportPDF(){
     const sigBlock = await renderTextBlock(sigHtml, 45 * 3.78, 8);
     pdf.addImage(sigBlock.dataUrl, sigBlock.fmt, sigX, sigY + 1, 45, sigBlock.h * (45/sigBlock.w));
 
-    // ======================= PAGE 2: CASHFLOW TABLE =======================
+    // ======================= PAGE 2: CHARTS (financial visuals) =======================
+    pdf.addPage();
+    setColor(C.bg, 'fill');
+    pdf.rect(0, 0, PW, PH, 'F');
+
+    // Header band
+    setColor(C.forest, 'fill');
+    pdf.rect(0, 0, PW, 14, 'F');
+    const p2cHeaderHtml = `<div style="display:flex;justify-content:space-between;align-items:center;padding:0 0px;font-family:'Inter Tight','Noto Serif TC',sans-serif;color:#fff">
+      <div style="font-family:'Fraunces',serif;font-size:9px;font-style:italic">Premium Financing Illustration</div>
+      <div style="font-size:8px;color:#c9b48c;letter-spacing:0.04em">${escapeHtml(clientName)}  ·  ${escapeHtml(product.short[lang])}  ·  ${escapeHtml(bank.name[lang])}</div>
+      <div style="font-size:7.5px;color:#c9b48c;letter-spacing:0.16em;font-weight:600">PAGE 2 / 3</div>
+    </div>`;
+    const p2cHeaderBlock = await renderTextBlock(p2cHeaderHtml, (PW - M*2) * 3.78, 9);
+    pdf.addImage(p2cHeaderBlock.dataUrl, p2cHeaderBlock.fmt, M, 4, PW - M*2, p2cHeaderBlock.h * ((PW-M*2)/p2cHeaderBlock.w));
+
+    // Page 2 title
+    const p2cTitleHtml = `<div style="font-family:'Inter Tight','Noto Serif TC',sans-serif">
+      <div style="font-size:9px;letter-spacing:0.36em;color:#8b6f47;text-transform:uppercase;font-weight:700;margin-bottom:4px">${lang==='zh' ? '財  富  增  長  視  覺  化' : 'WEALTH GROWTH VISUALIZATION'}</div>
+      <div style="font-family:'Fraunces','Noto Serif TC',serif;font-size:24px;font-weight:500;color:#1a1f1a;letter-spacing:-0.01em">${lang==='zh' ? '財富增長' : 'Growth'} <span style="font-style:italic;color:#1a3a2e">${lang==='zh' ? '完整圖表分析' : 'Visual Analysis'}</span></div>
+      <div style="font-size:9px;color:#6b7570;margin-top:4px;letter-spacing:0.04em">${lang==='zh' ? '4 個關鍵圖表 · 直觀展示融資後財富增長軌跡' : 'Four key charts illustrating wealth growth trajectory'}</div>
+    </div>`;
+    const p2cTitle = await renderTextBlock(p2cTitleHtml, CW * 3.78, 14);
+    pdf.addImage(p2cTitle.dataUrl, p2cTitle.fmt, M, 22, CW, p2cTitle.h * (CW / p2cTitle.w));
+
+    // ----- Chart Grid 2x2 -----
+    const chartStartY = 22 + p2cTitle.h * (CW / p2cTitle.w) + 6;
+    const chartBoxW = (CW - 4) / 2;  // 2 cols, 4mm gap
+    const chartBoxH = 75;  // each chart box height
+    const chartGap = 4;
+
+    // Helper: draw chart box with title, chart image, narrative
+    async function drawChartBox(chartObj, chartTitle, narrative, x, y){
+      // Box border
+      setColor(C.paper, 'fill');
+      setColor(C.line, 'draw');
+      pdf.setLineWidth(0.3);
+      pdf.rect(x, y, chartBoxW, chartBoxH, 'FD');
+      // Gold accent left bar
+      setColor(C.gold, 'fill');
+      pdf.rect(x, y, 1.2, chartBoxH, 'F');
+
+      // Title
+      const titleHtml = `<div style="padding:5px 8px 3px 8px;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+        <div style="font-size:7.5px;letter-spacing:0.18em;color:#8b6f47;text-transform:uppercase;font-weight:700">${escapeHtml(chartTitle)}</div>
+      </div>`;
+      const titleBlk = await renderTextBlock(titleHtml, chartBoxW * 3.78, 6);
+      pdf.addImage(titleBlk.dataUrl, titleBlk.fmt, x, y, chartBoxW, titleBlk.h * (chartBoxW/titleBlk.w));
+
+      // Chart image (capture canvas with white background underlay)
+      let chartImg = null;
+      if(chartObj && chartObj.canvas){
+        try {
+          // Create offscreen canvas with white background to avoid transparency-as-black on JPEG
+          const srcCanvas = chartObj.canvas;
+          const off = document.createElement('canvas');
+          off.width = srcCanvas.width;
+          off.height = srcCanvas.height;
+          const offCtx = off.getContext('2d');
+          offCtx.fillStyle = '#ffffff';
+          offCtx.fillRect(0, 0, off.width, off.height);
+          offCtx.drawImage(srcCanvas, 0, 0);
+          chartImg = off.toDataURL('image/jpeg', 0.9);
+        } catch(e){ console.warn('Chart capture failed:', e); }
+      }
+      const chartImgY = y + 8;
+      const chartImgH = chartBoxH - 8 - 16;  // reserve space for narrative
+      if(chartImg){
+        pdf.addImage(chartImg, 'JPEG', x + 3, chartImgY, chartBoxW - 6, chartImgH);
+      }
+
+      // Narrative
+      const narrHtml = `<div style="padding:3px 8px;font-family:'Inter Tight','Noto Serif TC',sans-serif">
+        <div style="font-size:7px;color:#3d4540;line-height:1.45;letter-spacing:0.01em">${escapeHtml(narrative)}</div>
+      </div>`;
+      const narrBlk = await renderTextBlock(narrHtml, chartBoxW * 3.78, 14);
+      const narrH = Math.min(14, narrBlk.h * (chartBoxW/narrBlk.w));
+      pdf.addImage(narrBlk.dataUrl, narrBlk.fmt, x, y + chartBoxH - narrH - 1, chartBoxW, narrH);
+    }
+
+    // Top-left: Growth Chart
+    await drawChartBox(
+      charts.growth,
+      lang==='zh' ? '退保價值增長軌跡' : 'Surrender Value Growth',
+      tt['narr-growth'],
+      M, chartStartY
+    );
+    // Top-right: IRR Chart
+    await drawChartBox(
+      charts.irr,
+      lang==='zh' ? '不同退保年份之 IRR 對比' : 'IRR by Surrender Year',
+      tt['narr-irr'],
+      M + chartBoxW + chartGap, chartStartY
+    );
+    // Bottom-left: Profit Bar Chart
+    await drawChartBox(
+      charts.profit,
+      lang==='zh' ? '5 / 10 / 20 / 30 年 淨利潤對比' : 'Net Profit · Year 5 / 10 / 20 / 30',
+      tt['narr-profit'],
+      M, chartStartY + chartBoxH + chartGap
+    );
+    // Bottom-right: Break-even Chart
+    await drawChartBox(
+      charts.breakeven,
+      lang==='zh' ? '累計現金流 · 回本軌跡' : 'Break-even Trajectory',
+      tt['narr-breakeven'],
+      M + chartBoxW + chartGap, chartStartY + chartBoxH + chartGap
+    );
+
+    // Footer line
+    setColor(C.line, 'draw');
+    pdf.setLineWidth(0.2);
+    pdf.line(M, PH - 12, PW - M, PH - 12);
+    const p2cFooterHtml = `<div style="text-align:center;font-family:'Inter Tight','Noto Serif TC',sans-serif;font-size:7px;color:#6b7570;letter-spacing:0.04em">${lang==='zh' ? '保費融資演示  ·  Harry Mak  ·  FWD 保險顧問' : 'Premium Financing Illustration  ·  Harry Mak  ·  FWD Insurance Consultant'}</div>`;
+    const p2cFooterBlock = await renderTextBlock(p2cFooterHtml, CW * 3.78, 7);
+    pdf.addImage(p2cFooterBlock.dataUrl, p2cFooterBlock.fmt, M, PH - 10, CW, p2cFooterBlock.h * (CW/p2cFooterBlock.w));
+
+    // ======================= PAGE 3: CASHFLOW TABLE =======================
     pdf.addPage();
     setColor(C.bg, 'fill');
     pdf.rect(0, 0, PW, PH, 'F');
@@ -2048,7 +2105,7 @@ async function exportPDF(){
     const p2HeaderHtml = `<div style="display:flex;justify-content:space-between;align-items:center;padding:0 0px;font-family:'Inter Tight','Noto Serif TC',sans-serif;color:#fff">
       <div style="font-family:'Fraunces',serif;font-size:9px;font-style:italic">Premium Financing Illustration</div>
       <div style="font-size:8px;color:#c9b48c;letter-spacing:0.04em">${escapeHtml(clientName)}  ·  ${escapeHtml(product.short[lang])}  ·  ${escapeHtml(bank.name[lang])}</div>
-      <div style="font-size:7.5px;color:#c9b48c;letter-spacing:0.16em;font-weight:600">PAGE 2 / 2</div>
+      <div style="font-size:7.5px;color:#c9b48c;letter-spacing:0.16em;font-weight:600">PAGE 3 / 3</div>
     </div>`;
     const p2HeaderBlock = await renderTextBlock(p2HeaderHtml, (PW - M*2) * 3.78, 9);
     pdf.addImage(p2HeaderBlock.dataUrl, p2HeaderBlock.fmt, M, 4, PW - M*2, p2HeaderBlock.h * ((PW-M*2)/p2HeaderBlock.w));
@@ -2056,7 +2113,7 @@ async function exportPDF(){
     // Page 2 title
     const p2TitleHtml = `<div style="font-family:'Inter Tight','Noto Serif TC',sans-serif">
       <div style="font-size:9px;letter-spacing:0.36em;color:#8b6f47;text-transform:uppercase;font-weight:700;margin-bottom:4px">${lang==='zh' ? '完 整 現 金 流 表' : 'CASH FLOW SCHEDULE'}</div>
-      <div style="font-family:'Fraunces','Noto Serif TC',serif;font-size:24px;font-weight:500;color:#1a1f1a;letter-spacing:-0.01em">${lang==='zh' ? '20 年' : '20-Year'} <span style="font-style:italic;color:#1a3a2e">${lang==='zh' ? '完整現金流' : 'Complete Cash Flow'}</span></div>
+      <div style="font-family:'Fraunces','Noto Serif TC',serif;font-size:24px;font-weight:500;color:#1a1f1a;letter-spacing:-0.01em">${lang==='zh' ? '30 年' : '30-Year'} <span style="font-style:italic;color:#1a3a2e">${lang==='zh' ? '完整現金流' : 'Complete Cash Flow'}</span></div>
       <div style="font-size:9px;color:#6b7570;margin-top:4px;letter-spacing:0.04em">${lang==='zh' ? '所有金額以港幣計算 · ' : 'All values in HKD · '}${escapeHtml(bank.name[lang])} · ${escapeHtml(bank.accountName[lang])}</div>
     </div>`;
     const p2Title = await renderTextBlock(p2TitleHtml, CW * 3.78, 14);
@@ -2080,19 +2137,19 @@ async function exportPDF(){
     cols.forEach(c => c.w *= scaleX);
 
     // Header row
-    const headerH = 11;
+    const headerH = 9;
     setColor(C.bg, 'fill');
     setColor(C.line, 'draw');
     pdf.setLineWidth(0.2);
     pdf.rect(M, tableY, CW, headerH, 'FD');
 
     // ----- TABLE: render header + all rows in ONE batched image (drastic file size reduction) -----
-    const rowH = 8.5;
+    const rowH = 6;
     const tableTotalH = headerH + rowH * result.rows.length;
 
     // Build full table HTML (header + all rows) in one DOM block
     const headerCellsHtml = cols.map(col =>
-      `<div style="width:${(col.w/CW*100).toFixed(2)}%;padding:3px 5px;text-align:${col.align};font-size:8px;letter-spacing:0.18em;color:#6b5535;text-transform:uppercase;font-weight:700;line-height:1.3;box-sizing:border-box">${escapeHtml(col.label)}</div>`
+      `<div style="width:${(col.w/CW*100).toFixed(2)}%;padding:2px 5px;text-align:${col.align};font-size:7px;letter-spacing:0.16em;color:#6b5535;text-transform:uppercase;font-weight:700;line-height:1.2;box-sizing:border-box">${escapeHtml(col.label)}</div>`
     ).join('');
 
     const allRowsHtml = result.rows.map((r, idx) => {
@@ -2101,15 +2158,15 @@ async function exportPDF(){
       const bg = isMilestone ? '#ebf3ed' : (isAlt ? '#fcf9f3' : '#ffffff');
       const profitColor = r.netProfit >= 0 ? '#3d6a4f' : '#a14b3a';
       const yearColor = isMilestone ? '#3d6a4f' : '#1a3a2e';
-      return `<div style="display:flex;width:100%;align-items:center;background:${bg};border-bottom:1px solid #e8ddc8;height:${rowH * 3.78}px;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;line-height:1.2;box-sizing:border-box">
-        <div style="width:${(cols[0].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:center;font-family:'Fraunces','Noto Serif TC',serif;font-size:11px;color:${yearColor};font-weight:600;box-sizing:border-box">${r.year}</div>
-        <div style="width:${(cols[1].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.gv))}</div>
-        <div style="width:${(cols[2].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.ngv))}</div>
-        <div style="width:${(cols[3].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.tsv))}</div>
-        <div style="width:${(cols[4].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#a14b3a;font-weight:500;box-sizing:border-box">(${escapeHtml(fmtHKD(r.interest))})</div>
-        <div style="width:${(cols[5].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.netCash))}</div>
-        <div style="width:${(cols[6].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9px;color:${profitColor};font-weight:500;box-sizing:border-box">${r.netProfit<0 ? '('+escapeHtml(fmtHKD(Math.abs(r.netProfit)))+')' : escapeHtml(fmtHKD(r.netProfit))}</div>
-        <div style="width:${(cols[7].w/CW*100).toFixed(2)}%;padding:1px 5px;text-align:right;font-size:9.5px;color:#1a3a2e;font-weight:700;box-sizing:border-box">${(r.tirr*100).toFixed(2)}%</div>
+      return `<div style="display:flex;width:100%;align-items:center;background:${bg};border-bottom:1px solid #e8ddc8;height:${rowH * 3.78}px;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;line-height:1.1;box-sizing:border-box">
+        <div style="width:${(cols[0].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:center;font-family:'Fraunces','Noto Serif TC',serif;font-size:9px;color:${yearColor};font-weight:600;box-sizing:border-box">${r.year}</div>
+        <div style="width:${(cols[1].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:right;font-size:7.5px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.gv))}</div>
+        <div style="width:${(cols[2].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:right;font-size:7.5px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.ngv))}</div>
+        <div style="width:${(cols[3].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:right;font-size:7.5px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.tsv))}</div>
+        <div style="width:${(cols[4].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:right;font-size:7.5px;color:#a14b3a;font-weight:500;box-sizing:border-box">(${escapeHtml(fmtHKD(r.interest))})</div>
+        <div style="width:${(cols[5].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:right;font-size:7.5px;color:#1a1f1a;font-weight:500;box-sizing:border-box">${escapeHtml(fmtHKD(r.netCash))}</div>
+        <div style="width:${(cols[6].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:right;font-size:7.5px;color:${profitColor};font-weight:500;box-sizing:border-box">${r.netProfit<0 ? '('+escapeHtml(fmtHKD(Math.abs(r.netProfit)))+')' : escapeHtml(fmtHKD(r.netProfit))}</div>
+        <div style="width:${(cols[7].w/CW*100).toFixed(2)}%;padding:0px 5px;text-align:right;font-size:8px;color:#1a3a2e;font-weight:700;box-sizing:border-box">${(r.tirr*100).toFixed(2)}%</div>
       </div>`;
     }).join('');
 
@@ -2131,15 +2188,15 @@ async function exportPDF(){
     // ----- KEY MILESTONES BAND (below table, summary callouts) -----
     const milestoneY = rowY + 6;
     if(milestoneY < PH - 30){
-      const y5 = result.rows.find(r=>r.year===5);
       const y10 = result.rows.find(r=>r.year===10);
-      const y20 = last;
+      const y20 = result.rows.find(r=>r.year===20);
+      const y30 = result.rows.find(r=>r.year===30) || last;
       const milestoneBoxH = 18;
       const mw = CW / 3 - 2;
       const milestones = [
-        { yr: 5, irr: y5.tirr, profit: y5.netProfit, label: lang==='zh' ? '5 年退保' : 'Year 5 Surrender' },
         { yr: 10, irr: y10.tirr, profit: y10.netProfit, label: lang==='zh' ? '10 年退保' : 'Year 10 Surrender' },
-        { yr: 20, irr: y20.tirr, profit: y20.netProfit, label: lang==='zh' ? '20 年退保' : 'Year 20 Surrender' }
+        { yr: 20, irr: y20.tirr, profit: y20.netProfit, label: lang==='zh' ? '20 年退保' : 'Year 20 Surrender' },
+        { yr: 30, irr: y30.tirr, profit: y30.netProfit, label: lang==='zh' ? '30 年退保' : 'Year 30 Surrender' }
       ];
       for(let i=0; i<3; i++){
         const m = milestones[i];
