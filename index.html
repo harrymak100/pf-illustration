@@ -266,6 +266,11 @@ body.client-mode .advisor-only{display:none}
 .legend-dot.loan{background:var(--ink-soft)}
 .chart-wrap{position:relative;height:340px}
 .chart-wrap.short{height:280px}
+.chart-narrative{
+  margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:11.5px;color:var(--ink-2);line-height:1.6;letter-spacing:0.01em;
+  font-weight:500;
+}
 
 /* Compare cards */
 .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:26px}
@@ -394,8 +399,8 @@ body.client-mode .advisor-only{display:none}
   <div class="brand">
     <div class="brand-mark">P·F</div>
     <div class="brand-text">
-      <div class="brand-name" id="t-brand">Premium Financing Illustration</div>
-      <div class="brand-sub" id="t-brandSub">PRIVATE WEALTH ADVISORY · 2026</div>
+      <div class="brand-name" id="t-brand">保費融資計算機</div>
+      <div class="brand-sub" id="t-brandSub">P R E M I U M   F I N A N C I N G   C A L C U L A T O R</div>
     </div>
   </div>
   <div class="header-controls">
@@ -498,7 +503,7 @@ body.client-mode .advisor-only{display:none}
       </h1>
       <div class="page-meta">
         <div class="meta-item"><span class="label" id="t-pg-product-lbl">產品</span><span class="value" id="ptProduct">智盈．超凡</span></div>
-        <div class="meta-item"><span class="label" id="t-pg-bank-lbl">融資夥伴</span><span class="value" id="ptBank">天星銀行</span></div>
+        <div class="meta-item"><span class="label" id="t-pg-bank-lbl">融資夥伴</span><span class="value" id="ptBank">象象銀行 (前稱 天星銀行)</span></div>
         <div class="meta-item"><span class="label" id="t-pg-date-lbl">報價日期</span><span class="value">2026/04/24</span></div>
       </div>
     </div>
@@ -537,6 +542,7 @@ body.client-mode .advisor-only{display:none}
         </div>
       </div>
       <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+      <div class="chart-narrative" id="t-narr-growth">深綠線顯示保單退保價值隨年期增長;灰色虛線為固定融資餘額。當退保價值超越融資餘額,客戶即使提取後仍有正淨值。</div>
     </div>
 
     <div class="section">
@@ -582,6 +588,31 @@ body.client-mode .advisor-only{display:none}
           </div>
         </div>
         <div class="chart-wrap short"><canvas id="irrChart"></canvas></div>
+        <div class="chart-narrative" id="t-narr-irr">融資後 IRR 透過槓桿放大保單回報。利率低於 cash IRR 時,差額會放大成融資人嘅淨增量回報。</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div class="chart-title" id="t-chart-profit">5 / 10 / 15 / 20 年 淨利潤對比</div>
+          <div class="chart-legend">
+            <div class="legend-item"><span class="legend-dot with-pf"></span><span id="t-leg-pfProfit">融資淨利潤</span></div>
+            <div class="legend-item"><span class="legend-dot no-pf"></span><span id="t-leg-cashProfit">純現金淨利潤</span></div>
+          </div>
+        </div>
+        <div class="chart-wrap short"><canvas id="profitChart"></canvas></div>
+        <div class="chart-narrative" id="t-narr-profit">同等保險成本下,融資策略以更少自付資本鎖定相若絕對淨利潤;若客戶將節省下來的資金作其他投資,總財富增長更顯著。</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div class="chart-title" id="t-chart-breakeven">累計現金流 · 回本軌跡</div>
+          <div class="chart-legend">
+            <div class="legend-item"><span class="legend-dot with-pf"></span><span id="t-leg-cumPf">累計淨現金</span></div>
+            <div class="legend-item"><span class="legend-dot loan"></span><span id="t-leg-zeroLine">回本線 (零)</span></div>
+          </div>
+        </div>
+        <div class="chart-wrap short"><canvas id="breakevenChart"></canvas></div>
+        <div class="chart-narrative" id="t-narr-breakeven">綠色區域 = 已回本盈利;橙色 = 仍處於利息持有期。融資策略首數年呈負累計現金流(支付利息),典型於第 4-6 年穿越零線進入正利潤區間。</div>
       </div>
     </div>
 
@@ -627,7 +658,7 @@ body.client-mode .advisor-only{display:none}
       <div class="disclaimer-grid">
         <div>
           <div class="head" id="t-disc-head">重要事項及免責聲明</div>
-          <div id="discBody">本說明書僅供示意用途，所載數字基於指定假設（包括融資利率、紅利實現率、保險公司預期回報），實際結果或有差異。保費融資涉及槓桿風險，包括但不限於利率上升、銀行追加保證金 (margin call)、紅利實現率低於預期等。內部回報率 (IRR) 之展示受香港保險業監管局 7% 上限規限。本演示已假設 1m HIBOR ≈ 3.35% 為計算基準。客戶應就個人財務狀況及風險承受能力諮詢專業意見。本文件不構成投資建議或要約。</div>
+          <div id="discBody">本說明書僅供示意用途,所載數字基於指定假設(包括融資利率、紅利實現率、保險公司預期回報),實際結果或有差異。保費融資涉及槓桿風險,包括但不限於利率上升、銀行追加保證金 (margin call)、紅利實現率低於預期等。本說明書展示之槓桿後內部回報率 (IRR) 為運用融資後之數值,並非保險公司原始 illustration 數字,不受 HKIA illustration 7% 上限限制;原始 illustration 之 cash IRR 仍須符合監管要求。本演示已假設 1m HIBOR ≈ 3.35% 為計算基準。客戶應就個人財務狀況及風險承受能力諮詢專業意見。本文件不構成投資建議或要約。</div>
         </div>
         <div class="signature-block">
           <div class="role" id="t-sig-role">FWD 保險顧問</div>
@@ -760,10 +791,10 @@ const HIBOR_1M = 0.0335;
 const BANKS = [
   {
     id:'airstar-large',
-    name:{zh:'天星銀行', en:'AirStar Bank'},
+    name:{zh:'象象銀行 (前稱 天星銀行)', en:'Ele Bank (formerly AirStar)'},
     accountName:{zh:'一般戶口 (貸款≥$200萬)', en:'General Account (Loan ≥$2M)'},
-    short:{zh:'天星銀行 ≥$200萬', en:'AirStar ≥$2M'},
-    bankGroup:'AirStar',
+    short:{zh:'象象銀行 ≥$200萬', en:'Ele Bank ≥$2M'},
+    bankGroup:'EleBank',
     rate: HIBOR_1M + 0.015, rateLabel:'H+1.5% / P-0.5%', ltv:0.90,
     minAsset:{zh:'貸款 ≥ $200萬', en:'Loan ≥ HK$2M'},
     openingReq:{zh:'無留存資產要求', en:'No min asset requirement'},
@@ -773,10 +804,10 @@ const BANKS = [
   },
   {
     id:'airstar-small',
-    name:{zh:'天星銀行', en:'AirStar Bank'},
+    name:{zh:'象象銀行 (前稱 天星銀行)', en:'Ele Bank (formerly AirStar)'},
     accountName:{zh:'一般戶口 (貸款<$200萬)', en:'General Account (Loan <$2M)'},
-    short:{zh:'天星銀行 <$200萬', en:'AirStar <$2M'},
-    bankGroup:'AirStar',
+    short:{zh:'象象銀行 <$200萬', en:'Ele Bank <$2M'},
+    bankGroup:'EleBank',
     rate: HIBOR_1M + 0.015, rateLabel:'H+1.5% / P-0.65%', ltv:0.90,
     minAsset:{zh:'$10萬港元或以上', en:'HK$100K or above'},
     openingReq:{zh:'手機APP「保融易」申請; 貸款額 $10萬–$3000萬', en:'Apply via "保融易" mobile app; Loan $100K–$30M'},
@@ -906,8 +937,8 @@ const BANKS = [
 // ============ I18N (text-only, separate from elements with children) ============
 const T = {
   zh: {
-    'brand':'Premium Financing Illustration',
-    'brandSub':'私 人 財 富 諮 詢 · 2026',
+    'brand':'保費融資計算機',
+    'brandSub':'P R E M I U M   F I N A N C I N G   C A L C U L A T O R',
     'modeAdvisor':'顧問模式', 'modeClient':'客戶模式', 'export':'匯出 PDF',
     'sec-client':'客戶資料', 'sec-product':'投保產品', 'sec-bank':'融資銀行',
     'sec-financing':'融資結構', 'sec-stress':'壓力測試',
@@ -931,6 +962,14 @@ const T = {
     'cmp-irr':'內部回報率', 'cmp-irr2':'內部回報率',
     'cmp-multiple':'資本倍數', 'cmp-multiple2':'資本倍數',
     'chart-irr':'不同退保年份之 IRR 對比',
+    'chart-profit':'5 / 10 / 15 / 20 年 淨利潤對比',
+    'chart-breakeven':'累計現金流 · 回本軌跡',
+    'leg-pfProfit':'融資淨利潤','leg-cashProfit':'純現金淨利潤',
+    'leg-cumPf':'累計淨現金','leg-zeroLine':'回本線 (零)',
+    'narr-growth':'深綠線顯示保單退保價值隨年期增長;灰色虛線為固定融資餘額。當退保價值超越融資餘額,客戶即使提取後仍有正淨值。',
+    'narr-irr':'融資後 IRR 透過槓桿放大保單回報。利率低於 cash IRR 時,差額會放大成融資人嘅淨增量回報。',
+    'narr-profit':'同等保險成本下,融資策略以更少自付資本鎖定相若絕對淨利潤;若客戶將節省下來的資金作其他投資,總財富增長更顯著。',
+    'narr-breakeven':'綠色區域 = 已回本盈利;橙色 = 仍處於利息持有期。融資策略首數年呈負累計現金流(支付利息),典型於第 4-6 年穿越零線進入正利潤區間。',
     'sec-bankCompA':'融資銀行', 'sec-bankCompB':'平台對比',
     'sec-bankMeta':'基於相同產品及客戶條件',
     'sec-cashA':'20 年', 'sec-cashB':'完整現金流',
@@ -939,7 +978,7 @@ const T = {
     'th-tsv':'退保總值', 'th-interest':'當年利息',
     'th-netCash':'淨現金', 'th-netProfit':'累計利潤', 'th-irr':'TIRR',
     'disc-head':'重要事項及免責聲明',
-    'disc-body':'本說明書僅供示意用途，所載數字基於指定假設（包括融資利率、紅利實現率、保險公司預期回報），實際結果或有差異。保費融資涉及槓桿風險，包括但不限於利率上升、銀行追加保證金 (margin call)、紅利實現率低於預期等。內部回報率 (IRR) 之展示受香港保險業監管局 7% 上限規限。本演示已假設 1m HIBOR ≈ 3.35% 為計算基準。客戶應就個人財務狀況及風險承受能力諮詢專業意見。本文件不構成投資建議或要約。',
+    'disc-body':'本說明書僅供示意用途,所載數字基於指定假設(包括融資利率、紅利實現率、保險公司預期回報),實際結果或有差異。保費融資涉及槓桿風險,包括但不限於利率上升、銀行追加保證金 (margin call)、紅利實現率低於預期等。本說明書展示之槓桿後內部回報率 (IRR) 為運用融資後之數值,並非保險公司原始 illustration 數字,不受 HKIA illustration 7% 上限限制;原始 illustration 之 cash IRR 仍須符合監管要求。本演示已假設 1m HIBOR ≈ 3.35% 為計算基準。客戶應就個人財務狀況及風險承受能力諮詢專業意見。本文件不構成投資建議或要約。',
     'sig-role':'FWD 保險顧問',
     'unit-yr':'年', 'unit-yrShort':'年',
     'breakeven-text':'TIRR 由負轉正',
@@ -949,8 +988,7 @@ const T = {
     'risk-rate-high':'<strong>利率警示：</strong>目前融資利率設定偏高 (>6%)，可能侵蝕大部分槓桿回報。',
     'risk-fulfill-low':'<strong>實現率警示：</strong>紅利實現率設定偏低 (<80%)，反映悲觀情境，請與客戶充分討論。',
     'risk-no-breakeven':'<strong>回本警示：</strong>在當前壓力情境下，20 年內未能回本。',
-    'irr-cap-warning':'<strong>合規提示：</strong>此 IRR 已接近 HKIA 7% 展示上限。',
-    'irr-cap-exceeded':'<strong>合規警示：</strong>此估算 IRR 超過 HKIA 7% 展示上限。Illustration 上應顯示 7%。',
+    'cash-irr-cap-warning':'<strong>合規檢查：</strong>保單未槓桿之 cash IRR 超過 HKIA 7% 上限,illustration 數據可能需要重新對齊。槓桿後 IRR 不受此限。',
     'product-incompat':'銀行不適用',
     'pdf-exporting':'匯出中...',
     'pdf-failed':'匯出失敗：',
@@ -959,8 +997,8 @@ const T = {
     'rate-lbl':'利率', 'breakeven-lbl':'回本'
   },
   en: {
-    'brand':'Premium Financing Illustration',
-    'brandSub':'PRIVATE WEALTH ADVISORY · 2026',
+    'brand':'Premium Financing Calculator',
+    'brandSub':'P R E M I U M   F I N A N C I N G   C A L C U L A T O R',
     'modeAdvisor':'Advisor View', 'modeClient':'Client View', 'export':'Export PDF',
     'sec-client':'Client Profile', 'sec-product':'Insurance Product', 'sec-bank':'Financing Bank',
     'sec-financing':'Loan Structure', 'sec-stress':'Stress Test',
@@ -985,6 +1023,14 @@ const T = {
     'cmp-irr':'IRR', 'cmp-irr2':'IRR',
     'cmp-multiple':'Capital Multiple', 'cmp-multiple2':'Capital Multiple',
     'chart-irr':'IRR by Surrender Year',
+    'chart-profit':'Net Profit Comparison · Year 5 / 10 / 15 / 20',
+    'chart-breakeven':'Cumulative Cash Flow · Break-even Trajectory',
+    'leg-pfProfit':'Financed Net Profit','leg-cashProfit':'Cash-only Net Profit',
+    'leg-cumPf':'Cumulative Net Cash','leg-zeroLine':'Break-even (zero)',
+    'narr-growth':'The dark green line shows policy surrender value growing over time; the dashed grey line is the fixed loan balance. Once surrender value exceeds the loan, clients retain positive equity even after early withdrawal.',
+    'narr-irr':'Leveraged IRR amplifies policy returns through financing. When the loan rate is below cash IRR, the spread compounds into the financier\'s incremental return.',
+    'narr-profit':'For the same insurance cost, the financing strategy locks in comparable absolute profit with significantly less capital outlay; if the client deploys savings elsewhere, total wealth growth is amplified further.',
+    'narr-breakeven':'Green zone = profitable post-break-even; orange = still in interest-carry period. Financing strategy shows negative cumulative cash flow in early years (interest payments), typically crossing zero between Year 4–6.',
     'sec-bankCompA':'Financing Partner', 'sec-bankCompB':'Comparison',
     'sec-bankMeta':'Same product & client conditions',
     'sec-cashA':'20-Year', 'sec-cashB':'Cash Flow Schedule',
@@ -993,7 +1039,7 @@ const T = {
     'th-tsv':'Total SV', 'th-interest':'Interest',
     'th-netCash':'Net Cash', 'th-netProfit':'Cum. Profit', 'th-irr':'TIRR',
     'disc-head':'Important Notice & Disclaimer',
-    'disc-body':'This illustration is for indicative purposes only. Figures are based on assumed financing rates, fulfillment ratios, and insurer projected returns; actual outcomes may vary. Premium financing involves leverage risk, including but not limited to rising interest rates, margin calls, and lower-than-expected fulfillment ratios. The IRR shown is subject to the 7.0% cap mandated by the Hong Kong Insurance Authority. This presentation assumes 1m HIBOR ≈ 3.35% as calculation basis. Clients should seek independent professional advice based on their personal financial situation and risk tolerance. This document does not constitute investment advice or an offer.',
+    'disc-body':'This illustration is for indicative purposes only. Figures are based on assumed financing rates, fulfillment ratios, and insurer projected returns; actual outcomes may vary. Premium financing involves leverage risk, including but not limited to rising interest rates, margin calls, and lower-than-expected fulfillment ratios. The leveraged IRR shown is a derived figure post-financing and is NOT subject to the HKIA 7% illustration cap; the underlying cash IRR from the insurer\'s illustration remains subject to that regulatory cap. This presentation assumes 1m HIBOR ≈ 3.35% as calculation basis. Clients should seek independent professional advice based on their personal financial situation and risk tolerance. This document does not constitute investment advice or an offer.',
     'sig-role':'FWD INSURANCE CONSULTANT',
     'unit-yr':' yrs', 'unit-yrShort':'yr',
     'breakeven-text':'TIRR turns positive',
@@ -1003,8 +1049,7 @@ const T = {
     'risk-rate-high':'<strong>Rate Warning:</strong> Financing rate is set high (>6%), which may significantly erode leveraged returns.',
     'risk-fulfill-low':'<strong>Fulfillment Warning:</strong> Fulfillment ratio is set low (<80%), reflecting a pessimistic scenario. Please discuss with client.',
     'risk-no-breakeven':'<strong>Break-even Warning:</strong> Under current stress scenario, the policy does not break even within 20 years.',
-    'irr-cap-warning':'<strong>Compliance Notice:</strong> IRR is approaching the HKIA 7% display cap.',
-    'irr-cap-exceeded':'<strong>Compliance Alert:</strong> Estimated IRR exceeds the HKIA 7% display cap. Illustration should show 7%.',
+    'cash-irr-cap-warning':'<strong>Compliance Check:</strong> Unleveraged cash IRR exceeds HKIA 7% cap; illustration data may need realignment. Leveraged IRR is not subject to this cap.',
     'product-incompat':'Not eligible',
     'pdf-exporting':'Exporting...',
     'pdf-failed':'Export failed: ',
@@ -1294,10 +1339,13 @@ function updateRiskBanner(result){
   if(state.rate > 0.06) messages.push(t('risk-rate-high'));
   if(state.fulfillment < 0.80) messages.push(t('risk-fulfill-low'));
   if(!result.breakEven) messages.push(t('risk-no-breakeven'));
-  // IRR cap warning - check year 20
+
+  // HKIA 7% cap applies ONLY to insurer's illustration cash IRR (Year 20 surrender value),
+  // NOT to leveraged IRR which is a derived figure that can legitimately exceed 7%.
   const last = result.rows[result.rows.length-1];
-  if(last && last.tirr >= 0.068 && last.tirr <= 0.072) messages.push(t('irr-cap-warning'));
-  if(last && last.tirr > 0.072) messages.push(t('irr-cap-exceeded'));
+  if(last && last.tirrNoPf > 0.07){
+    messages.push(t('cash-irr-cap-warning'));
+  }
 
   if(messages.length > 0){
     banner.innerHTML = messages.join('<br>');
@@ -1352,6 +1400,107 @@ function renderCharts(result){
        pointBackgroundColor:'#8b6f47', pointBorderColor:'#fff', pointBorderWidth:1.5}
     ]},
     options: chartOptions(false, true)
+  });
+
+  // ============ Profit Comparison Bar Chart (Y5/10/15/20) ============
+  if(charts.profit) charts.profit.destroy();
+  const profitYears = [5, 10, 15, 20];
+  const pfProfitData = profitYears.map(y => {
+    const r = result.rows.find(rr => rr.year === y);
+    return r ? Math.round(r.netProfit) : 0;
+  });
+  const cashProfitData = profitYears.map(y => {
+    const r = result.rows.find(rr => rr.year === y);
+    return r ? Math.round(r.tsv - result.premiumHKD) : 0;
+  });
+  const ctx3 = $('profitChart').getContext('2d');
+  charts.profit = new Chart(ctx3, {
+    type:'bar',
+    data:{
+      labels: profitYears.map(y => (currentLang==='zh' ? '第 '+y+' 年' : 'Year '+y)),
+      datasets:[
+        {label:t('leg-pfProfit'), data:pfProfitData, backgroundColor:'rgba(26,58,46,0.85)',
+         borderColor:'#1a3a2e', borderWidth:0, borderRadius:2, barPercentage:0.7, categoryPercentage:0.6},
+        {label:t('leg-cashProfit'), data:cashProfitData, backgroundColor:'rgba(139,111,71,0.65)',
+         borderColor:'#8b6f47', borderWidth:0, borderRadius:2, barPercentage:0.7, categoryPercentage:0.6}
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#1a1f1a', borderColor:'#8b6f47', borderWidth:1,
+          titleColor:'#a88858', bodyColor:'#faf6ef',
+          titleFont:{family:'Inter Tight', size:11, weight:'600'},
+          bodyFont:{family:'JetBrains Mono', size:11}, padding:12, cornerRadius:0,
+          callbacks:{label:(ctx)=> ctx.dataset.label + ':  HK$' + Math.round(ctx.parsed.y).toLocaleString()}
+        }
+      },
+      scales:{
+        x:{grid:{display:false}, ticks:{color:'#3d4540', font:{family:'Inter Tight', size:11, weight:'600'}}},
+        y:{grid:{color:'rgba(184,165,133,0.2)', drawTicks:false},
+           ticks:{color:'#6b7570', font:{family:'JetBrains Mono', size:10},
+                  callback:(v)=> 'HK$'+(v/1000).toFixed(0)+'k'}}
+      }
+    }
+  });
+
+  // ============ Cumulative Cash Flow / Break-even Chart ============
+  if(charts.breakeven) charts.breakeven.destroy();
+  // Compute cumulative cash position for financed strategy
+  // CCF[t] = -outlay + sum(t=1..t of -interest) + (if surrender at year t: tsv - financing)
+  // We show "potential break-even" curve: at each year t, what's net cash if we surrender then
+  const ccfData = result.rows.map(r => Math.round(r.netProfit));  // Cumulative profit at surrender each year
+  const zeroLineData = result.rows.map(() => 0);
+
+  const breakevenGradient = (ctx) => {
+    const g = ctx.createLinearGradient(0, 0, 0, 280);
+    g.addColorStop(0, 'rgba(61,106,79,0.25)');
+    g.addColorStop(0.5, 'rgba(61,106,79,0.05)');
+    g.addColorStop(1, 'rgba(161,75,58,0.08)');
+    return g;
+  };
+
+  const ctx4 = $('breakevenChart').getContext('2d');
+  charts.breakeven = new Chart(ctx4, {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:t('leg-cumPf'), data:ccfData, borderColor:'#1a3a2e', backgroundColor: breakevenGradient(ctx4),
+         borderWidth:2.5, fill:true, tension:0.3, pointRadius:3,
+         pointBackgroundColor:(ctx)=> ctx.parsed && ctx.parsed.y >= 0 ? '#3d6a4f' : '#a14b3a',
+         pointBorderColor:'#fff', pointBorderWidth:1.5},
+        {label:t('leg-zeroLine'), data:zeroLineData, borderColor:'#8b6f47', backgroundColor:'transparent',
+         borderWidth:1.5, borderDash:[6,4], pointRadius:0, fill:false}
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index', intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#1a1f1a', borderColor:'#8b6f47', borderWidth:1,
+          titleColor:'#a88858', bodyColor:'#faf6ef',
+          titleFont:{family:'Inter Tight', size:11, weight:'600'},
+          bodyFont:{family:'JetBrains Mono', size:11}, padding:12, cornerRadius:0,
+          callbacks:{label:(ctx)=>{
+            if(ctx.datasetIndex === 1) return '';
+            const v = ctx.parsed.y;
+            const sign = v >= 0 ? (currentLang==='zh' ? ' 已回本' : ' (profit)') : (currentLang==='zh' ? ' 持有期' : ' (carry)');
+            return ctx.dataset.label + ':  HK$' + Math.round(v).toLocaleString() + sign;
+          }}
+        }
+      },
+      scales:{
+        x:{grid:{color:'rgba(184,165,133,0.2)', drawTicks:false}, ticks:{color:'#6b7570', font:{family:'JetBrains Mono', size:10}}},
+        y:{grid:{color:'rgba(184,165,133,0.2)', drawTicks:false},
+           ticks:{color:'#6b7570', font:{family:'JetBrains Mono', size:10},
+                  callback:(v)=> (v>=0?'+':'')+'HK$'+(v/1000).toFixed(0)+'k'}}
+      }
+    }
   });
 }
 
